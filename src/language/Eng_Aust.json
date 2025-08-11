@@ -1,0 +1,127 @@
+{
+  "menu": {
+    "about": "About",
+    "menu": "Menu",
+    "reservation": "Pre Order",
+    "contact": "Contact"
+  },
+  "itemMenu": {
+    "all": "ALL",
+    "drink":"DRINK",
+    "bread": "BREAD",
+    "cake": "CAKE"
+  },
+  "drinkMenu": {
+    "coffee": "COFFEE",
+    "signaturevelvet": "SIGNATURE VELVET",
+    "sweettea": "SWEET TEA",
+    "looseleaftea": "LOOSE LEAF TEA",
+    "babycino": "BABYCINO",
+    "noncoffee": "NON COFFEE",
+    "ade": "ADE"
+  },
+
+  "breadMenu": {
+    "saltedbreadroll": "SALTED & BUTTERED ROLL",
+    "tissuebread": "TISSUE BREAD",
+    "saltbreadicecreamsndo": "SALT BREAD ICE CREAM SANDO",
+    "tiramisu": "TIRAMISU",
+    "mochiloaf": "MOCHI LEAF"
+  },
+  
+  "cakeMenu": {
+    "miniwaterfallcake": "MINI WATERFALL CAKE",
+    "waterfallcake": "WATERFALL CAKE"
+  },
+
+  "reservation": {
+    "title": "Make a Reservation",
+    "dateSelection": "Select Date",
+    "timeSelection": "Select Time",
+    "peopleSelection": "Select Party Size",
+    "customerInfo": "Customer Information",
+    "specialRequests": "Special Requests",
+    "selected": "Selected",
+    "location": "Location",
+    "businessHours": "Business Hours",
+    "breakTime": "Break Time",
+    "lastOrder": "Last Order",
+    "service": "Service",
+    "menu": "Menu",
+    "reservationInfo": "Reservation Information",
+    "totalAmount": "Total Amount",
+    "completeReservation": "Complete Reservation"
+  },
+  "form": {
+    "name": "Name",
+    "phone": "Phone",
+    "namePlaceholder": "Enter your name",
+    "phonePlaceholder": "Enter your phone number",
+    "specialRequestsPlaceholder": "Enter any special requests",
+    "required": "Required field"
+  },
+  "status": {
+    "selected": "Selected",
+    "available": "Available",
+    "unavailable": "Unavailable"
+  },
+  "location": {
+    "guui": "Sample",
+    "address": "Sample",
+    "detail": "Sample"
+  },
+  "time": {
+    "businessHours": "10:00 - 22:00",
+    "breakTime": "16:00 - 22:00",
+    "lastOrder": "21:30"
+  },
+  "service": {
+    "takeout": "Takeout",
+    "dineIn": "Dine-in"
+  },
+  "price": {
+    "productPrice": "Product Price",
+    "deliveryFee": "Delivery Fee",
+    "free": "Free",
+    "totalPrice": "Total Price"
+  },
+  "messages": {
+    "requiredFields": "Please fill in all required fields.",
+    "reservationComplete": "Your reservation has been completed!"
+  },
+
+  "about": {
+    "story": {
+      "title": "Our Story",
+      "paragraph1": "Buttered brings the latest food trends from Seongsu-dong, Seoul, to Chippendale",
+      "paragraph2": "Seongsu is currently one of Korea’s most creative neighbourhoods—known for its design studios, fashion houses, independent cafés, and a vibrant food scene. \n We’ve captured that energy through our signature pastries like salt bread, Waterfall cake, and tissue bread. \n These aren’t just desserts—they represent what’s trending in Korea right now, reimagined for a Sydney audience."
+    },
+
+    "story2": {
+      "paragraph2": "The team behind Buttered and the upcoming Hongdae Pocha also operates Allta, a contemporary Korean fine-dining restaurant in Sydney that holds 2 Hats in the Good Food Guide. \n With Allta showcasing the refinement of Korean cuisine, Buttered and Hongdae Pocha bring that same cultural depth to everyday bakery and street food experiences."
+    },
+
+    "featured": {
+      "title": "Featured Specialties",
+      "item1": { "title": "Signature Bread", "description": "Handcrafted with premium ingredients and artistic decoration" },
+      "item2": { "title": "Made with Love", "description": "Traditional techniques meet modern flavours in every bite" },
+      "item3": { "title": "Custom Cakes", "description": "Personalized creations for your special moments" }
+    },
+    "values": {
+      "title": "Our Values",
+      "quality": { "title": "Quality First", "description": "We source only the finest ingredients to ensure exceptional taste" },
+      "passion": { "title": "Made with Love", "description": "Every product is crafted with care and attention to detail" },
+      "creativity": { "title": "Creative Innovation", "description": "We blend traditional methods with modern creativity" }
+    }
+  },
+
+
+"bottommenu": {
+  "title": "BUTTERED",
+  "location": "5 Central Park Ave, Chippendale NSW 2008",
+  "number": "0451 977 377",
+  "instagram": "@buttered_sydney",
+  "email": "aneceso@vuzahospitality.com.au",
+  "group": "Contact Anece So, CBO at Vuza Hospitality Group"
+}
+}
