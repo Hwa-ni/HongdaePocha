@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ButteredHome from "./screens/Buttered/ButteredHome";
-import ButteredFoodItems from "./screens/Buttered/Menu/Buttered_Food_Items";
-import ButteredReservation from "./screens/Buttered/Menu/Buttered_Reservation";
-import ButteredAbout from "./screens/Buttered/Menu/Buttered_About";
+import ButteredHome from "./screens/HongdaePocha/HongdaePochaHome";
+import ButteredFoodItems from "./screens/HongdaePocha/Menu/Buttered_Food_Items";
+import ButteredReservation from "./screens/HongdaePocha/Menu/Buttered_Reservation";
+import ButteredAbout from "./screens/HongdaePocha/Menu/Buttered_About";
 
 function App() {
   return (
