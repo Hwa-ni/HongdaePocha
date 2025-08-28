@@ -2,92 +2,40 @@
   "menu": {
     "about": "About",
     "menu": "Menu",
-    "reservation": "Pre Order",
-    "contact": "Contact"
+    "reservation": "Pre Order"
   },
   "itemMenu": {
     "all": "ALL",
-    "drink":"DRINK",
-    "bread": "BREAD",
-    "cake": "CAKE"
+    "drinks":"DRINKS",
+    "bbqgrill": "BBQ / Grill",
+    "special": "Hongdae Pocha Specials",
+    "Pochastaplestoshare": "Pocha Staples to Share",
+    "side": "Side Menu",
+    "extras": "Extras",
+    "dessert": "Dessert"
   },
   "drinkMenu": {
-    "coffee": "COFFEE",
-    "signaturevelvet": "SIGNATURE VELVET",
-    "sweettea": "SWEET TEA",
-    "looseleaftea": "LOOSE LEAF TEA",
-    "babycino": "BABYCINO",
-    "noncoffee": "NON COFFEE",
-    "ade": "ADE"
+    "soju": "SOJU",
+    "beer": "BEER",
+    "makgeolli": "MAKGEOLLI",
+    "wine": "WINE",
+    "kwine" : "KOREAN WINE",
+    "cocktails" : "Cocktails",
+    "softdrink": "SOFT DRINKS"
   },
 
-  "breadMenu": {
-    "saltedbreadroll": "SALTED & BUTTERED ROLL",
-    "tissuebread": "TISSUE BREAD",
-    "saltbreadicecreamsndo": "SALT BREAD ICE CREAM SANDO",
-    "tiramisu": "TIRAMISU",
-    "mochiloaf": "MOCHI LEAF"
+  "bbqgrillmenu": {
+    "beef": "BEEF",
+    "pork": "PORK",
+    "friend": "K-BBQ & FRIENDS"
   },
   
-  "cakeMenu": {
-    "miniwaterfallcake": "MINI WATERFALL CAKE",
-    "waterfallcake": "WATERFALL CAKE"
+  "Pochastaplestoshare": {
+    "gogijibdoenjangjjigae": "GOGIJIB DOENJANG JJIGAE"
   },
-
-  "reservation": {
-    "title": "Make a Reservation",
-    "dateSelection": "Select Date",
-    "timeSelection": "Select Time",
-    "peopleSelection": "Select Party Size",
-    "customerInfo": "Customer Information",
-    "specialRequests": "Special Requests",
-    "selected": "Selected",
-    "location": "Location",
-    "businessHours": "Business Hours",
-    "breakTime": "Break Time",
-    "lastOrder": "Last Order",
-    "service": "Service",
-    "menu": "Menu",
-    "reservationInfo": "Reservation Information",
-    "totalAmount": "Total Amount",
-    "completeReservation": "Complete Reservation"
-  },
-  "form": {
-    "name": "Name",
-    "phone": "Phone",
-    "namePlaceholder": "Enter your name",
-    "phonePlaceholder": "Enter your phone number",
-    "specialRequestsPlaceholder": "Enter any special requests",
-    "required": "Required field"
-  },
-  "status": {
-    "selected": "Selected",
-    "available": "Available",
-    "unavailable": "Unavailable"
-  },
-  "location": {
-    "guui": "Sample",
-    "address": "Sample",
-    "detail": "Sample"
-  },
-  "time": {
-    "businessHours": "10:00 - 22:00",
-    "breakTime": "16:00 - 22:00",
-    "lastOrder": "21:30"
-  },
-  "service": {
-    "takeout": "Takeout",
-    "dineIn": "Dine-in"
-  },
-  "price": {
-    "productPrice": "Product Price",
-    "deliveryFee": "Delivery Fee",
-    "free": "Free",
-    "totalPrice": "Total Price"
-  },
-  "messages": {
-    "requiredFields": "Please fill in all required fields.",
-    "reservationComplete": "Your reservation has been completed!"
+  "dessert": {
+    "bananaooyooicecream": "바나나우유 아이스크림 (Banana Oo-yoo Ice Cream)",
+    "nokchaicecream": "녹차 아이스크림 (Nokcha Ice Cream)"
   },
 
   "about": {

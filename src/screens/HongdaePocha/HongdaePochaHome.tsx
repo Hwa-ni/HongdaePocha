@@ -5,7 +5,7 @@ import ButteredMenuline from "./HongdaePocha_Menuline";
 import BottomMenu from "./HongdaePocha_BottomMenu";
 import Buttered_insta from "./HongdaePocha_insta";
 import { TransitionContainer } from "./animation/TransitionContainer";
-import { menuData } from "./Menu/Buttered_Menu_list";
+import { menuData } from "./Menu/Hongdae_Pocha_Menu_list";
 import styled from "styled-components";
 
 const Title = styled.h2`

@@ -64,7 +64,7 @@ const Topmenu: React.FC = () => {
           <Logo
             src={
               process.env.PUBLIC_URL +
-              "/assets/HongdaePocha/HongdaePocha_logo/Mainlogo1.png"
+              "/assets/HongdaePocha/HongdaePocha_logo/mainlogo5.png"
             }
             alt="Logo"
             onClick={() => handleMenuClick("/")}

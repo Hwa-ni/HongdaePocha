@@ -35,7 +35,7 @@ const BottomMenu = () => {
       </TextSection>
       <LogoSection>
         <img
-          src={process.env.PUBLIC_URL + "/assets/HongdaePocha/HongdaePocha_logo/Mainlogo1.png"}
+          src={process.env.PUBLIC_URL + "/assets/HongdaePocha/HongdaePocha_logo/mainlogo4.png"}
           alt="Logo"
         />
       </LogoSection>

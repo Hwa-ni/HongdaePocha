@@ -2,39 +2,37 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Topmenu from "../HongdaePocha_Topmenu";
 import lang from "../../../language/Eng_Aust.json";
-import { menuData } from "./Buttered_Menu_list";
+import { menuData } from "./Hongdae_Pocha_Menu_list";
 import BottomMenu from "../HongdaePocha_BottomMenu";
 import { TransitionContainer } from "../animation/TransitionContainer";
 
 const categories = [
   lang.itemMenu.all,
-  lang.itemMenu.drink,
-  lang.itemMenu.bread,
-  lang.itemMenu.cake,
+  lang.itemMenu.drinks,
+  lang.itemMenu.bbqgrill,
+  lang.itemMenu.special,
+  lang.itemMenu.Pochastaplestoshare,
+  lang.itemMenu.side,
+  lang.itemMenu.extras,
+  lang.itemMenu.dessert,
 ];
 
 const subcategories: { [key: string]: string[] } = {
-  [lang.itemMenu.drink]: [
-    lang.drinkMenu.coffee,
-    lang.drinkMenu.noncoffee,
-    lang.drinkMenu.signaturevelvet,
-    lang.drinkMenu.sweettea,
-    lang.drinkMenu.looseleaftea,
-    lang.drinkMenu.ade,
-    lang.drinkMenu.babycino
+  [lang.itemMenu.drinks]: [
+    lang.drinkMenu.soju,
+    lang.drinkMenu.beer,
+    lang.drinkMenu.makgeolli,
+    lang.drinkMenu.wine,
+    lang.drinkMenu.kwine,
+    lang.drinkMenu.cocktails,
+    lang.drinkMenu.softdrink
   ],
 
-  [lang.itemMenu.bread]: [
-    lang.breadMenu.saltedbreadroll,
-    lang.breadMenu.tissuebread,
-    lang.breadMenu.saltbreadicecreamsndo,
-    lang.breadMenu.mochiloaf
+  [lang.itemMenu.bbqgrill]: [
+    lang.bbqgrillmenu.beef,
+    lang.bbqgrillmenu.pork,
+    lang.bbqgrillmenu.friend
   ],
-  [lang.itemMenu.cake]: [
-    lang.cakeMenu.miniwaterfallcake,
-    lang.cakeMenu.waterfallcake,
-    lang.breadMenu.tiramisu
-  ]
 };
 
 const MenuListPage = () => {
@@ -494,17 +492,17 @@ const IceBadge = styled.div<{ isNewVisible: boolean; isHotVisible?: boolean }>`
 `;
 
 const MenuImageContainer = styled.div`
+  position: relative;
   width: 100%;
-  height: 200px;
+  padding-bottom: 116.67%;
   overflow: hidden;
   background: #f5f5f5;
-
-  @media (max-width: 768px) {
-    height: 150px;
-  }
 `;
 
 const MenuImage = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
