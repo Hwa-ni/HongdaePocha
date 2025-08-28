@@ -9,7 +9,7 @@ const BottomMenu = () => {
         <Line><strong>{en.bottommenu?.title}</strong></Line>
         <Line>
           <a
-            href={`https://www.google.com/maps/place/Buttered+Bakery+%26+Cafe/@-33.8852129,151.1987054,19z/data=!3m1!4b1!4m6!3m5!1s0x6b12afd5e5b12d91:0x820358e326161bf5!8m2!3d-33.885214!4d151.1999231!16s%2Fg%2F11x2slnvpz?entry=ttu&g_ep=EgoyMDI1MDcxMy4wIKXMDSoASAFQAw%3D%3D || "")}`}
+            href={`https://www.google.com/maps/place/Hongdae+Pocha+BBQ+Sydney/@-33.885214,151.1992794,19z/data=!3m1!4b1!4m6!3m5!1s0x6b12af4b2e862453:0xfbef67412c282063!8m2!3d-33.885214!4d151.1999231!16s%2Fg%2F11xgjvyh86?entry=ttu&g_ep=EgoyMDI1MDgyNC4wIKXMDSoASAFQAw%3D%3D || "")}`}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -35,7 +35,7 @@ const BottomMenu = () => {
       </TextSection>
       <LogoSection>
         <img
-          src={process.env.PUBLIC_URL + "/assets/Buttered/Buttered_logo/MainLogo3.png"}
+          src={process.env.PUBLIC_URL + "/assets/HongdaePocha/HongdaePocha_logo/Mainlogo1.png"}
           alt="Logo"
         />
       </LogoSection>

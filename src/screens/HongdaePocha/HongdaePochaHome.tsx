@@ -23,12 +23,6 @@ const Home: React.FC = () => {
       <TransitionContainer>
       <Topmenu />
       <Photoline />
-      <Title>Drink Menu</Title>
-      <ButteredMenuline menuList={menuData.filter(item => item.category === "DRINK").map(item => ({ ...item, id: String(item.id) }))} />
-      <Title>Bread Menu</Title>
-      <ButteredMenuline menuList={menuData.filter(item => item.category === "BREAD").map(item => ({ ...item, id: String(item.id) }))} />
-      <Title><i className="fi fi-brands-instagram" /> Our Instagram</Title>
-      <Buttered_insta />
       <BottomMenu />
       </TransitionContainer>
 
