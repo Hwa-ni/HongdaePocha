@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
-import BottomMenu from "./HongdaePocha_BottomMenu";
 
 // Custom hook to get window width
 const useWindowResize = () => {
@@ -22,12 +21,12 @@ const useWindowResize = () => {
 };
 
 interface MenuItemType {
-  id: string;
+  id: number;
   name: string;
   image: string;
 }
 
-const ButteredMenuline: React.FC<{ menuList: MenuItemType[] }> = ({ menuList }) => {
+const HongdaePocha_Menuline: React.FC<{ menuList: MenuItemType[] }> = ({ menuList }) => {
   const [startIndex, setStartIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const totalItems = menuList.length;
@@ -44,7 +43,7 @@ const ButteredMenuline: React.FC<{ menuList: MenuItemType[] }> = ({ menuList }) 
     }, 10000); // 10 seconds
 
     return () => clearInterval(interval);
-  }, [startIndex, windowWidth]); // windowWidth를 의존성 배열에 추가하여 화면 크기 변경 시에도 interval이 재설정되도록 함
+  }, [startIndex, windowWidth, totalItems]);
 
   const getCurrentItems = () => {
     const itemsPerPage = getItemsPerPage();
@@ -88,6 +87,10 @@ const ButteredMenuline: React.FC<{ menuList: MenuItemType[] }> = ({ menuList }) 
     });
   };
 
+  if (totalItems === 0) {
+    return null; 
+  }
+
   return (
     <Container>
       <ArrowButton onClick={handlePrev} disabled={isTransitioning}>
@@ -100,7 +103,7 @@ const ButteredMenuline: React.FC<{ menuList: MenuItemType[] }> = ({ menuList }) 
       <Wrapper $isTransitioning={isTransitioning}>
         {getCurrentItems().map((item: MenuItemType) => (
           <MenuItem key={item.id}>
-            <img src={item.image} alt={String(item.name)} />
+            <img src={item.image} alt={item.name} />
             <span>{item.name}</span>
           </MenuItem>
         ))}
@@ -116,7 +119,7 @@ const ButteredMenuline: React.FC<{ menuList: MenuItemType[] }> = ({ menuList }) 
   );
 };
 
-export default ButteredMenuline;
+export default HongdaePocha_Menuline;
 
 const slideIn = keyframes`
   from {

@@ -64,17 +64,23 @@ const Topmenu: React.FC = () => {
           <Logo
             src={
               process.env.PUBLIC_URL +
-              "/assets/HongdaePocha/HongdaePocha_logo/mainlogo5.png"
+              "/assets/HongdaePocha/HongdaePocha_logo/Mainlogo3.png"
             }
             alt="Logo"
             onClick={() => handleMenuClick("/")}
             role="button"
           />
           <DesktopNavItems>
-            <NavItem onClick={() => handleMenuClick("/About")}>
+            <NavItem
+              onClick={() => handleMenuClick("/About")}
+              isScrolledPastPhotoline={isScrolledPastPhotoline}
+            >
               {en.menu.about}
             </NavItem>
-            <NavItem onClick={() => handleMenuClick("/MainMenu")}>
+            <NavItem
+              onClick={() => handleMenuClick("/MainMenu")}
+              isScrolledPastPhotoline={isScrolledPastPhotoline}
+            >
               {en.menu.menu}
             </NavItem>
             <NavItem
@@ -83,29 +89,39 @@ const Topmenu: React.FC = () => {
                   "https://www.opentable.com.au/r/hongdae-pocha-sydney-reservations-chippendale?restref=298547&lang=en-AU&ot_source=Restaurant%20website"
                 )
               }
+              isScrolledPastPhotoline={isScrolledPastPhotoline}
             >
               {en.menu.reservation}
             </NavItem>
           </DesktopNavItems>
-          <MobileMenuButton onClick={toggleMobileMenu}>
+          <MobileMenuButton
+            onClick={toggleMobileMenu}
+            isScrolledPastPhotoline={isScrolledPastPhotoline}
+          >
             {isMobileMenuOpen ? "X" : "☰"}
           </MobileMenuButton>
         </NavBar>
         {isMobileMenuOpen && (
           <MobileMenu>
-            <MobileNavItem onClick={() => handleMenuClick("/About")}>
+            <MobileNavItem
+              onClick={() => handleMenuClick("/About")}
+              isScrolledPastPhotoline={true}
+            >
               {en.menu.about}
             </MobileNavItem>
-            <MobileNavItem onClick={() => handleMenuClick("/MainMenu")}>
+            <MobileNavItem
+              onClick={() => handleMenuClick("/MainMenu")}
+              isScrolledPastPhotoline={true}
+            >
               {en.menu.menu}
             </MobileNavItem>
             <MobileNavItem
               onClick={() =>
                 window.open(
-                  "https://www.opentable.com/restaurant-solutions/api-partners/",
-                  "_blank"
+                  "https://www.opentable.com.au/r/hongdae-pocha-sydney-reservations-chippendale?restref=298547&lang=en-AU&ot_source=Restaurant%20website"
                 )
               }
+              isScrolledPastPhotoline={true}
             >
               {en.menu.reservation}
             </MobileNavItem>
@@ -130,7 +146,7 @@ const NavBarContainer = styled.div<{ isScrolledPastPhotoline: boolean }>`
   transition: background 0.3s ease;
 `;
 
-const NavItem = styled.div`
+const NavItem = styled.div<{ isScrolledPastPhotoline: boolean }>`
   display: flex;
   align-items: center;
   height: 100%;
@@ -138,12 +154,14 @@ const NavItem = styled.div`
   font-weight: bold;
   font-size: 16px;
   cursor: pointer;
-  color: #9c1f24;
+  color: ${(props) =>
+    props.isScrolledPastPhotoline ? "#9c1f24" : "#ffffff"};
   user-select: none;
   transition: color 0.2s ease;
 
   &:hover {
-    color: #41b6e6;
+    color: ${(props) =>
+      props.isScrolledPastPhotoline ? "#ff5100" : "#9c1f24"};
   }
 `;
 
@@ -181,13 +199,15 @@ const DesktopNavItems = styled.div`
   }
 `;
 
-const MobileMenuButton = styled.div`
+const MobileMenuButton = styled.div<{ isScrolledPastPhotoline: boolean }>`
   display: none;
   @media (max-width: 768px) {
     display: block;
     font-size: 24px;
     cursor: pointer;
     padding-right: 20px;
+    color: ${(props) =>
+      props.isScrolledPastPhotoline ? "#9c1f24" : "#ffffff"};
   }
 `;
 
@@ -208,6 +228,12 @@ const MobileNavItem = styled(NavItem)`
   height: auto;
   padding: 15px 20px;
   border-bottom: 1px solid #eee;
+  /* 이 컴포넌트는 isScrolledPastPhotoline이 항상 true인 상태의 색상을 가집니다. */
+  color: #9c1f24;
+
+  &:hover {
+    color: #9c1f24;
+  }
 `;
 
 const ContentSpacer = styled.div`

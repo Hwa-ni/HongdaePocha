@@ -4,6 +4,7 @@ import Topmenu from "../HongdaePocha_Topmenu";
 import BottomMenu from "../HongdaePocha_BottomMenu";
 import raw from "../../../language/Eng_Aust.json";
 import { TransitionContainer } from "../animation/TransitionContainer";
+import HomeMenuBenner from "../../Home_Menu";
 const en = raw as any;
 
 const RenderWithLineBreaks = ({ text }: { text?: string }) => {
@@ -76,8 +77,8 @@ const Buttered_About = () => {
             </ThirdStoryText>
           </ThirdHeroContent>
         </ThirdHeroSection>
-        
       </CombinedStorySection>
+      <HomeMenuBenner />
       <BottomMenu />
     </Container>
     </TransitionContainer>
