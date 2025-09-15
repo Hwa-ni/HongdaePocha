@@ -24,20 +24,23 @@ const RenderWithLineBreaks = ({ text }: { text?: string }) => {
 const Buttered_About = () => {
   return (
     <TransitionContainer>
-    <Container>
-      <Topmenu />
-      
-      {/* Combined Story Section with shared background image */}
-      <CombinedStorySection>
-        <HeroImage>
-          <img
-            src={process.env.PUBLIC_URL + "/assets/HongdaePocha/HongdaePocha_store_image/0I0A9058.jpg"}
-            alt="Main Logo"
-          />
-          <HeroOverlay />
-        </HeroImage>
+      <Container>
+        <Topmenu />
 
-        {/* Our Story Section - Now overlayed on the image */}
+        {/* Combined Story Section with shared background image */}
+        <CombinedStorySection>
+          <HeroImage>
+            <img
+              src={
+                process.env.PUBLIC_URL +
+                "/assets/HongdaePocha/HongdaePocha_store_image/0I0A9058.jpg"
+              }
+              alt="Main Logo"
+            />
+            <HeroOverlay />
+          </HeroImage>
+
+          {/* Our Story Section - Now overlayed on the image */}
           <HeroContent>
             <SectionTitle>{en.about?.story?.title}</SectionTitle>
             <StoryText>
@@ -50,37 +53,37 @@ const Buttered_About = () => {
             </StoryText>
           </HeroContent>
 
-        {/* Second Story Section (우측 정렬된 독립 섹션) */}
-        <SecondHeroSection>
-          <SecondHeroContent>
-            <SecondStoryText>
-              <SecondStoryParagraph>
-                <strong>{en.about?.story2?.paragraph1}</strong>
-              </SecondStoryParagraph>
-              <SecondStoryParagraph>
-                <RenderWithLineBreaks text={en.about?.story2?.paragraph2} />
-              </SecondStoryParagraph>
-            </SecondStoryText>
-          </SecondHeroContent>
-        </SecondHeroSection>
-        
-        {/* Third Story Section (좌측 정렬된 독립 섹션) */}
-        <ThirdHeroSection>
-          <ThirdHeroContent>
-            <ThirdStoryText>
-              <ThirdStoryParagraph>
-                <strong>{en.about?.story3?.paragraph1}</strong>
-              </ThirdStoryParagraph>
-              <ThirdStoryParagraph>
-                <RenderWithLineBreaks text={en.about?.story3?.paragraph2} />
-              </ThirdStoryParagraph>
-            </ThirdStoryText>
-          </ThirdHeroContent>
-        </ThirdHeroSection>
-      </CombinedStorySection>
-      <HomeMenuBenner />
-      <BottomMenu />
-    </Container>
+          {/* Second Story Section (우측 정렬된 독립 섹션) */}
+          <SecondHeroSection>
+            <SecondHeroContent>
+              <SecondStoryText>
+                <SecondStoryParagraph>
+                  <strong>{en.about?.story2?.paragraph1}</strong>
+                </SecondStoryParagraph>
+                <SecondStoryParagraph>
+                  <RenderWithLineBreaks text={en.about?.story2?.paragraph2} />
+                </SecondStoryParagraph>
+              </SecondStoryText>
+            </SecondHeroContent>
+          </SecondHeroSection>
+
+          {/* Third Story Section (좌측 정렬된 독립 섹션) */}
+          <ThirdHeroSection>
+            <ThirdHeroContent>
+              <ThirdStoryText>
+                <ThirdStoryParagraph>
+                  <strong>{en.about?.story3?.paragraph1}</strong>
+                </ThirdStoryParagraph>
+                <ThirdStoryParagraph>
+                  <RenderWithLineBreaks text={en.about?.story3?.paragraph2} />
+                </ThirdStoryParagraph>
+              </ThirdStoryText>
+            </ThirdHeroContent>
+          </ThirdHeroSection>
+        </CombinedStorySection>
+        <HomeMenuBenner />
+        <BottomMenu />
+      </Container>
     </TransitionContainer>
   );
 };
@@ -110,7 +113,7 @@ const HeroImage = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  
+
   img {
     width: 100%;
     height: 100%;
@@ -127,7 +130,6 @@ const HeroOverlay = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
 `;
 
-
 // Hero Section with Image and Story Overlay
 const HeroSection = styled.section`
   position: relative;
@@ -139,7 +141,7 @@ const HeroSection = styled.section`
   align-items: center;
   justify-content: flex-start;
   padding: 5%;
-  
+
   @media (max-width: 768px) {
     min-height: 40vh;
     padding: 3%;
@@ -154,7 +156,7 @@ const HeroContent = styled.div`
   text-align: left;
   color: white;
   margin-left: 0;
-  
+
   @media (max-width: 768px) {
     padding: 20px;
   }
@@ -183,7 +185,6 @@ const OverlayImageContainer = styled.div`
   }
 `;
 
-
 // Second Hero Section Styles (우측 정렬)
 const SecondHeroSection = styled.section`
   position: relative;
@@ -195,7 +196,7 @@ const SecondHeroSection = styled.section`
   justify-content: flex-end; /* 기본적으로 우측 정렬 유지 */
   padding-right: 5%;
   margin-top: 30px;
-  
+
   @media (max-width: 768px) {
     min-height: 40vh;
     flex-direction: column; /* 모바일에서는 세로로 정렬 */
@@ -236,7 +237,7 @@ const SecondHeroContent = styled.div`
   text-align: right;
   color: white;
   margin-right: 0;
-  
+
   @media (max-width: 768px) {
     padding: 20px;
     text-align: center; /* 모바일에서 텍스트 중앙 정렬 */
@@ -247,7 +248,7 @@ const SecondStoryText = styled.div`
   color: white;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
   text-align: right;
-  
+
   @media (max-width: 768px) {
     text-align: center; /* 모바일에서 텍스트 중앙 정렬 */
   }
@@ -265,7 +266,7 @@ const SecondStoryParagraph = styled.p`
     font-weight: bold;
     font-size: 50px;
   }
-  
+
   @media (max-width: 768px) {
     strong {
       font-size: 24px;
@@ -273,7 +274,6 @@ const SecondStoryParagraph = styled.p`
     text-align: center; /* 모바일에서 텍스트 중앙 정렬 */
   }
 `;
-
 
 // Third Hero Section Styles (좌측 정렬)
 const ThirdHeroSection = styled.section`
@@ -286,7 +286,7 @@ const ThirdHeroSection = styled.section`
   justify-content: flex-start;
   padding-left: 5%;
   margin-top: 30px;
-  
+
   @media (max-width: 768px) {
     min-height: 40vh;
     flex-direction: column; /* 모바일에서는 세로로 정렬 */
@@ -327,7 +327,7 @@ const ThirdHeroContent = styled.div`
   text-align: left;
   color: white;
   margin-left: 0;
-  
+
   @media (max-width: 768px) {
     padding: 20px;
     text-align: center; /* 모바일에서 텍스트 중앙 정렬 */
@@ -338,7 +338,7 @@ const ThirdStoryText = styled.div`
   color: white;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
   text-align: left;
-  
+
   @media (max-width: 768px) {
     text-align: center; /* 모바일에서 텍스트 중앙 정렬 */
   }
@@ -356,7 +356,7 @@ const ThirdStoryParagraph = styled.p`
     font-weight: bold;
     font-size: 50px;
   }
-  
+
   @media (max-width: 768px) {
     strong {
       font-size: 24px;
@@ -371,7 +371,7 @@ const SectionTitle = styled.h2`
   text-align: center;
   margin-bottom: 50px;
   color: #333;
-  
+
   /* White color when used in hero section */
   ${HeroContent} & {
     color: white;
@@ -379,7 +379,7 @@ const SectionTitle = styled.h2`
     font-size: 90px;
     text-align: left;
   }
-  
+
   @media (max-width: 768px) {
     ${HeroContent} & {
       font-size: 32px;
@@ -400,7 +400,7 @@ const StoryParagraph = styled.p`
   line-height: 1.8;
   color: #555;
   margin-bottom: 20px;
-  
+
   /* White color when used in hero section */
   ${HeroContent} & {
     color: white;
@@ -413,7 +413,7 @@ const StoryParagraph = styled.p`
     font-weight: bold;
     font-size: 40px;
   }
-  
+
   @media (max-width: 768px) {
     ${HeroContent} & strong {
       font-size: 24px;

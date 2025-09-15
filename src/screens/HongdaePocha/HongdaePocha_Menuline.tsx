@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
+import { useSwipeable } from "react-swipeable"; // 터치 스와이프 기능을 위해 새로운 라이브러리 추가
 
 // Custom hook to get window width
 const useWindowResize = () => {
@@ -26,7 +27,9 @@ interface MenuItemType {
   image: string;
 }
 
-const HongdaePocha_Menuline: React.FC<{ menuList: MenuItemType[] }> = ({ menuList }) => {
+const HongdaePocha_Menuline: React.FC<{ menuList: MenuItemType[] }> = ({
+  menuList,
+}) => {
   const [startIndex, setStartIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const totalItems = menuList.length;
@@ -34,12 +37,18 @@ const HongdaePocha_Menuline: React.FC<{ menuList: MenuItemType[] }> = ({ menuLis
 
   // 화면 크기에 따라 보여줄 아이템 개수 결정
   const getItemsPerPage = () => {
+    // 모바일(768px 이하)에서는 3개, 그 외에는 5개로 유지
     return windowWidth <= 768 ? 3 : 5;
   };
 
+  // 자동 슬라이드 기능 유지 (모바일 환경에서는 터치 사용으로 자동 넘김 해제 가능성 고려)
   useEffect(() => {
+    const isMobile = windowWidth <= 768;
     const interval = setInterval(() => {
-      handleNext();
+      // 모바일이 아닌 경우에만 자동 넘김
+      if (!isMobile) {
+        handleNext();
+      }
     }, 10000); // 10 seconds
 
     return () => clearInterval(interval);
@@ -79,7 +88,8 @@ const HongdaePocha_Menuline: React.FC<{ menuList: MenuItemType[] }> = ({ menuLis
       const prevIndex = startIndex - itemsPerPage;
       if (prevIndex < 0) {
         const remainder = totalItems % itemsPerPage;
-        const newIndex = remainder === 0 ? totalItems - itemsPerPage : totalItems - remainder;
+        const newIndex =
+          remainder === 0 ? totalItems - itemsPerPage : totalItems - remainder;
         setStartIndex(newIndex);
       } else {
         setStartIndex(prevIndex);
@@ -87,34 +97,77 @@ const HongdaePocha_Menuline: React.FC<{ menuList: MenuItemType[] }> = ({ menuLis
     });
   };
 
+  // 터치 스와이프 핸들러
+  const handlers = useSwipeable({
+    onSwipedLeft: () => {
+      // 왼쪽으로 스와이프하면 다음 페이지로
+      if (windowWidth <= 768) {
+        handleNext();
+      }
+    },
+    onSwipedRight: () => {
+      // 오른쪽으로 스와이프하면 이전 페이지로
+      if (windowWidth <= 768) {
+        handlePrev();
+      }
+    },
+    preventScrollOnSwipe: true,
+    trackMouse: true,
+  });
+
   if (totalItems === 0) {
-    return null; 
+    return null;
   }
+
+  const isMobile = windowWidth <= 768;
 
   return (
     <Container>
-      <ArrowButton onClick={handlePrev} disabled={isTransitioning}>
-        <ArrowIcon>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-            <path d="M15 18l-6-6 6-6" />
-          </svg>
-        </ArrowIcon>
-      </ArrowButton>
-      <Wrapper $isTransitioning={isTransitioning}>
+      {/* PC 환경에서만 보이는 화살표 버튼 */}
+      {!isMobile && (
+        <ArrowButton onClick={handlePrev} disabled={isTransitioning}>
+          <ArrowIcon>
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="3"
+            >
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </ArrowIcon>
+        </ArrowButton>
+      )}
+
+      {/* 모바일 터치 핸들러를 Wrapper에 적용 */}
+      <Wrapper {...handlers} $isTransitioning={isTransitioning}>
         {getCurrentItems().map((item: MenuItemType) => (
-          <MenuItem key={item.id}>
+          <MenuItem key={item.id} $isMobile={isMobile}>
             <img src={item.image} alt={item.name} />
             <span>{item.name}</span>
           </MenuItem>
         ))}
       </Wrapper>
-      <ArrowButton onClick={handleNext} disabled={isTransitioning}>
-        <ArrowIcon>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-            <path d="M9 18l6-6-6-6" />
-          </svg>
-        </ArrowIcon>
-      </ArrowButton>
+
+      {/* PC 환경에서만 보이는 화살표 버튼 */}
+      {!isMobile && (
+        <ArrowButton onClick={handleNext} disabled={isTransitioning}>
+          <ArrowIcon>
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="3"
+            >
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </ArrowIcon>
+        </ArrowButton>
+      )}
     </Container>
   );
 };
@@ -148,15 +201,17 @@ const Wrapper = styled.div<{ $isTransitioning: boolean }>`
   gap: 20px;
   width: 100%;
   justify-content: center;
-  animation: ${({ $isTransitioning }) => 
-    $isTransitioning ? slideOut : slideIn} 0.3s ease-in-out;
+  animation: ${({ $isTransitioning }) =>
+      $isTransitioning ? slideOut : slideIn}
+    0.3s ease-in-out;
 
   @media (max-width: 768px) {
     gap: 10px;
   }
 `;
 
-const MenuItem = styled.div`
+// MenuItem 스타일 수정
+const MenuItem = styled.div<{ $isMobile: boolean }>`
   background-color: #ffffff;
   border-radius: 20px;
   display: flex;
@@ -192,10 +247,11 @@ const MenuItem = styled.div`
   @media (max-width: 768px) {
     max-width: calc(33.333% - 10px);
     flex: 1 1 calc(33.333% - 10px);
-    
+
+    // 모바일에서 텍스트 크기 더 크게
     span {
-      font-size: 12px;
-      padding: 10px;
+      font-size: 14px;
+      padding: 15px;
     }
   }
 
@@ -215,7 +271,9 @@ const Container = styled.div`
 
   @media (max-width: 768px) {
     padding: 15px;
-    gap: 10px;
+    // 모바일에서는 화살표 버튼을 숨기므로, 간격을 없애고 Wrapper를 중앙에 위치시킵니다.
+    gap: 0;
+    justify-content: center;
   }
 `;
 
@@ -245,8 +303,7 @@ const ArrowButton = styled.button`
   }
 
   @media (max-width: 768px) {
-    width: 36px;
-    height: 36px;
+    display: none; // 모바일에서는 버튼을 숨깁니다.
   }
 `;
 
@@ -267,9 +324,6 @@ const ArrowIcon = styled.div`
   }
 
   @media (max-width: 768px) {
-    svg {
-      width: 15px;
-      height: 15px;
-    }
+    display: none; // 모바일에서는 아이콘을 숨깁니다.
   }
 `;

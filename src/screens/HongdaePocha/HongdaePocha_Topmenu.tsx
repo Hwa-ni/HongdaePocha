@@ -154,8 +154,7 @@ const NavItem = styled.div<{ isScrolledPastPhotoline: boolean }>`
   font-weight: bold;
   font-size: 16px;
   cursor: pointer;
-  color: ${(props) =>
-    props.isScrolledPastPhotoline ? "#9c1f24" : "#ffffff"};
+  color: ${(props) => (props.isScrolledPastPhotoline ? "#9c1f24" : "#ffffff")};
   user-select: none;
   transition: color 0.2s ease;
 

@@ -52,8 +52,8 @@ const ImageContainer = styled.div`
 `;
 
 const Home: React.FC = () => {
-  const bbqMenu = menuData.filter(item => item.category === "BBQ / Grill");
-  const drink = menuData.filter(item => item.category === "DRINKS");
+  const bbqMenu = menuData.filter((item) => item.category === "BBQ / Grill");
+  const drink = menuData.filter((item) => item.category === "DRINKS");
   return (
     <div>
       <TransitionContainer>
