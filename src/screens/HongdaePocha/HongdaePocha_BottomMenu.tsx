@@ -6,7 +6,9 @@ const BottomMenu = () => {
   return (
     <Wrapper>
       <TextSection>
-        <Line><strong>{en.bottommenu?.title}</strong></Line>
+        <Line>
+          <strong>{en.bottommenu?.title}</strong>
+        </Line>
         <Line>
           <a
             href={`https://www.google.com/maps/place/Hongdae+Pocha+BBQ+Sydney/@-33.885214,151.1992794,19z/data=!3m1!4b1!4m6!3m5!1s0x6b12af4b2e862453:0xfbef67412c282063!8m2!3d-33.885214!4d151.1999231!16s%2Fg%2F11xgjvyh86?entry=ttu&g_ep=EgoyMDI1MDgyNC4wIKXMDSoASAFQAw%3D%3D || "")}`}
@@ -21,7 +23,10 @@ const BottomMenu = () => {
         </Line>
         <Line>
           <a
-            href={`https://instagram.com/${en.bottommenu?.instagram?.replace(/^@/, "")}`}
+            href={`https://instagram.com/${en.bottommenu?.instagram?.replace(
+              /^@/,
+              ""
+            )}`}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -35,7 +40,10 @@ const BottomMenu = () => {
       </TextSection>
       <LogoSection>
         <img
-          src={process.env.PUBLIC_URL + "/assets/HongdaePocha/HongdaePocha_logo/mainlogo4.png"}
+          src={
+            process.env.PUBLIC_URL +
+            "/assets/HongdaePocha/HongdaePocha_logo/mainlogo4.png"
+          }
           alt="Logo"
         />
       </LogoSection>
@@ -50,7 +58,7 @@ const Wrapper = styled.footer`
   justify-content: space-between;
   align-items: center;
   padding: 30px 60px;
-  background-color: #f9f9f9;
+  background-color: #faf9f6;
 
   @media (max-width: 768px) {
     justify-content: center;

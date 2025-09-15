@@ -29,13 +29,13 @@ const Buttered_insta: React.FC = () => {
             className="instagram-media"
             data-instgrm-permalink={url}
             data-instgrm-version="14"
-            style={{ 
-              width: "100%", 
+            style={{
+              width: "100%",
               height: "100%",
               margin: 0,
               border: 0,
               borderRadius: "15px",
-              boxShadow: "none"
+              boxShadow: "none",
             }}
           ></blockquote>
         </InstagramCard>

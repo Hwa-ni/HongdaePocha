@@ -7,6 +7,7 @@ import HomeMenuBenner from "../Home_Menu";
 import HongdaePochaMenuline from "./HongdaePocha_Menuline";
 import { menuData } from "./Menu/Hongdae_Pocha_Menu_list";
 import styled from "styled-components";
+import StoreImageSection from "./Hongdae_Pocha_StoreImage";
 
 // 기존 Title 컴포넌트
 const Title = styled.h2`
@@ -15,6 +16,10 @@ const Title = styled.h2`
   text-align: center;
   margin-bottom: 50px;
   color: #333;
+`;
+const Wrapper = styled.div`
+  background-color: #faf9f6;
+  width: 100vw;
 `;
 
 // 이미지와 오버레이, 텍스트를 담을 새로운 컨테이너 컴포넌트
@@ -57,10 +62,10 @@ const Home: React.FC = () => {
   return (
     <div>
       <TransitionContainer>
-        <Topmenu />
-        <Photoline />
-
-        {/* 여기에 새로 추가된 이미지 컨테이너
+        <Wrapper>
+          <Topmenu />
+          <Photoline />
+          {/* 여기에 새로 추가된 이미지 컨테이너
         <ImageContainer>
           <img src="/assets/HongdaePocha/HongdaePocha_store_image/0I0A8375.jpg" alt="Hongdae Pocha" />
           <div className="overlay"></div>
@@ -70,12 +75,14 @@ const Home: React.FC = () => {
         </ImageContainer>
          */}
 
-        <Title>BBQ / Grill</Title>
-        <HongdaePochaMenuline menuList={bbqMenu} />
-        <Title>Drink Menu</Title>
-        <HongdaePochaMenuline menuList={drink} />
-        <HomeMenuBenner />
-        <BottomMenu />
+          <Title>BBQ / Grill</Title>
+          <HongdaePochaMenuline menuList={bbqMenu} />
+          <Title>Drink Menu</Title>
+          <HongdaePochaMenuline menuList={drink} />
+          <StoreImageSection />
+          <HomeMenuBenner />
+          <BottomMenu />
+        </Wrapper>
       </TransitionContainer>
     </div>
   );

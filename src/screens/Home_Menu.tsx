@@ -2,8 +2,12 @@ import React from "react";
 import styled from "styled-components";
 
 // 뷰포트 너비를 기준으로 모든 단위를 유동적으로 변경
+const Wrapper = styled.div`
+  background-color: #faf9f6;
+  width: 100vw;
+`;
 const Container = styled.div`
-  width: 90vw;
+  width: 80vw;
   margin: 0 auto;
   padding: 2.5vw;
   display: grid;
@@ -147,37 +151,39 @@ const CardTitle = styled.div`
 
 const HomeMenuBenner: React.FC = () => {
   return (
-    <Container>
-      {/* Left Card */}
-      <Card1>
-        <CardTitle>
-          Make a reservation
-          <br />
-          Before your visit
-        </CardTitle>
-        <CardButton href="https://www.opentable.com.au/r/hongdae-pocha-sydney-reservations-chippendale?restref=298547&lang=en-AU&ot_source=Restaurant%20website">
-          Reservation
-        </CardButton>
-      </Card1>
-
-      {/* Right Card - Now spans 2 columns with image area */}
-      <Card2>
-        <Card2ImageArea
-          style={{
-            backgroundImage:
-              "url(/assets/HongdaePocha/HongdaePocha_store_image/0I0A8295.jpg)",
-          }}
-        ></Card2ImageArea>
-        <Card2Content>
+    <Wrapper>
+      <Container>
+        {/* Left Card */}
+        <Card1>
           <CardTitle>
-            Explore diverse
+            Make a reservation
             <br />
-            Hongdae Pocha Menus
+            Before your visit
           </CardTitle>
-          <CardButton href="/MainMenu">View menu</CardButton>
-        </Card2Content>
-      </Card2>
-    </Container>
+          <CardButton href="https://www.opentable.com.au/r/hongdae-pocha-sydney-reservations-chippendale?restref=298547&lang=en-AU&ot_source=Restaurant%20website">
+            Reservation
+          </CardButton>
+        </Card1>
+
+        {/* Right Card - Now spans 2 columns with image area */}
+        <Card2>
+          <Card2ImageArea
+            style={{
+              backgroundImage:
+                "url(/assets/HongdaePocha/HongdaePocha_store_image/0I0A8295.jpg)",
+            }}
+          ></Card2ImageArea>
+          <Card2Content>
+            <CardTitle>
+              Explore diverse
+              <br />
+              Hongdae Pocha Menus
+            </CardTitle>
+            <CardButton href="/MainMenu">View menu</CardButton>
+          </Card2Content>
+        </Card2>
+      </Container>
+    </Wrapper>
   );
 };
 
