@@ -58,7 +58,7 @@ const Wrapper = styled.footer`
   justify-content: space-between;
   align-items: center;
   padding: 30px 60px;
-  background-color: #faf9f6;
+  background-color: #1a1a1a; /* 배경색을 더 어둡게 조정 */
 
   @media (max-width: 768px) {
     justify-content: center;
@@ -75,9 +75,14 @@ const TextSection = styled.div`
 const Line = styled.p`
   margin: 4px 0;
   font-size: 14px;
-  color: #333;
+  color: #e0e0e0; /* 본문 글자색을 밝은 회색으로 변경 */
+
+  strong {
+    color: #9c1f24; /* 제목 글자색을 붉은색으로 설정 */
+  }
+
   a {
-    color: inherit;
+    color: #9c1f24; /* 링크 글자색을 붉은색으로 설정 */
     text-decoration: none;
     font-weight: normal;
     transition: font-weight 0.3s ease, opacity 0.3s ease;

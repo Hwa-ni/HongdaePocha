@@ -44,7 +44,7 @@ const SectionContainer = styled.div`
   justify-content: center;
   align-items: center;
   padding: 2rem 1rem;
-  background: #faf9f6;
+  background: #1a1a1a;
   min-height: 80vh;
 `;
 

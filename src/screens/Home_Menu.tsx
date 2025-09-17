@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 // 뷰포트 너비를 기준으로 모든 단위를 유동적으로 변경
 const Wrapper = styled.div`
-  background-color: #faf9f6;
+  background-color: #1a1a1a;
   width: 100vw;
 `;
 const Container = styled.div`

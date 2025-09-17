@@ -25,153 +25,164 @@ const subcategories: { [key: string]: string[] } = {
     lang.drinkMenu.wine,
     lang.drinkMenu.kwine,
     lang.drinkMenu.cocktails,
-    lang.drinkMenu.softdrink
+    lang.drinkMenu.softdrink,
   ],
 
   [lang.itemMenu.bbqgrill]: [
     lang.bbqgrillmenu.beef,
     lang.bbqgrillmenu.pork,
-    lang.bbqgrillmenu.friend
+    lang.bbqgrillmenu.friend,
   ],
 };
 
 const MenuListPage = () => {
   const [selectedCategory, setSelectedCategory] = useState(lang.itemMenu.all);
-  const [selectedSubCategory, setSelectedSubCategory] = useState<string | null>(null);
+  const [selectedSubCategory, setSelectedSubCategory] = useState<string | null>(
+    null
+  );
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredMenu = menuData.filter(item => {
+  const filteredMenu = menuData.filter((item) => {
     const matchesCategory =
-      selectedCategory === lang.itemMenu.all || item.category === selectedCategory;
+      selectedCategory === lang.itemMenu.all ||
+      item.category === selectedCategory;
     const matchesSubCategory =
       !selectedSubCategory || item.subcategory === selectedSubCategory;
-    const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = item.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
     return matchesCategory && matchesSubCategory && matchesSearch;
   });
 
   return (
     <TransitionContainer>
-    <PageContainer>
-      <Topmenu />
-      <ContentContainer>
-        {/* PC 화면용 레이아웃 */}
-        <SidebarContainer>
-          <SearchSection>
-            <SearchInput
-              type="text"
-              placeholder="Search"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </SearchSection>
+      <PageContainer>
+        <Topmenu />
+        <ContentContainer>
+          {/* PC 화면용 레이아웃 */}
+          <SidebarContainer>
+            <SearchSection>
+              <SearchInput
+                type="text"
+                placeholder="Search"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </SearchSection>
 
-          <CategorySection>
-            <CategoryTitle>Categories</CategoryTitle>
-            <CategoryList>
-              {categories.map(category => (
-                <CategoryItem
-                  key={category}
-                  active={selectedCategory === category}
-                  onClick={() => {
-                    setSelectedCategory(category);
-                    setSelectedSubCategory(null);
-                  }}
-                >
-                  {category}
-                </CategoryItem>
-              ))}
-            </CategoryList>
-
-            {subcategories[selectedCategory] && (
-              <>
-                <SubCategoryTitle>Subcategories</SubCategoryTitle>
-                <CategoryList>
-                  {subcategories[selectedCategory].map(sub => (
-                    <CategoryItem
-                      key={sub}
-                      active={selectedSubCategory === sub}
-                      onClick={() =>
-                        setSelectedSubCategory(prev => prev === sub ? null : sub)
-                      }
-                      isSub
-                    >
-                      {sub}
-                    </CategoryItem>
-                  ))}
-                </CategoryList>
-              </>
-            )}
-          </CategorySection>
-        </SidebarContainer>
-
-        {/* 모바일 화면용 레이아웃 */}
-        <MobileCategorySection>
-          <MobileCategoryTabsWrapper>
-            <MobileCategoryTabs>
-              {categories.map(category => (
-                <MobileCategoryTab
-                  key={category}
-                  active={selectedCategory === category}
-                  onClick={() => {
-                    setSelectedCategory(category);
-                    setSelectedSubCategory(null);
-                  }}
-                >
-                  {category}
-                </MobileCategoryTab>
-              ))}
-            </MobileCategoryTabs>
-            {subcategories[selectedCategory] && (
-              <MobileCategoryTabs isSub>
-                {subcategories[selectedCategory].map(sub => (
-                  <MobileCategoryTab
-                    key={sub}
-                    active={selectedSubCategory === sub}
-                    onClick={() =>
-                      setSelectedSubCategory(prev => prev === sub ? null : sub)
-                    }
+            <CategorySection>
+              <CategoryTitle>Categories</CategoryTitle>
+              <CategoryList>
+                {categories.map((category) => (
+                  <CategoryItem
+                    key={category}
+                    active={selectedCategory === category}
+                    onClick={() => {
+                      setSelectedCategory(category);
+                      setSelectedSubCategory(null);
+                    }}
                   >
-                    {sub}
+                    {category}
+                  </CategoryItem>
+                ))}
+              </CategoryList>
+
+              {subcategories[selectedCategory] && (
+                <>
+                  <SubCategoryTitle>Subcategories</SubCategoryTitle>
+                  <CategoryList>
+                    {subcategories[selectedCategory].map((sub) => (
+                      <CategoryItem
+                        key={sub}
+                        active={selectedSubCategory === sub}
+                        onClick={() =>
+                          setSelectedSubCategory((prev) =>
+                            prev === sub ? null : sub
+                          )
+                        }
+                        isSub
+                      >
+                        {sub}
+                      </CategoryItem>
+                    ))}
+                  </CategoryList>
+                </>
+              )}
+            </CategorySection>
+          </SidebarContainer>
+
+          {/* 모바일 화면용 레이아웃 */}
+          <MobileCategorySection>
+            <MobileCategoryTabsWrapper>
+              <MobileCategoryTabs>
+                {categories.map((category) => (
+                  <MobileCategoryTab
+                    key={category}
+                    active={selectedCategory === category}
+                    onClick={() => {
+                      setSelectedCategory(category);
+                      setSelectedSubCategory(null);
+                    }}
+                  >
+                    {category}
                   </MobileCategoryTab>
                 ))}
               </MobileCategoryTabs>
-            )}
-          </MobileCategoryTabsWrapper>
-          <MobileSearchSection>
-            <SearchInput
-              type="text"
-              placeholder="Search"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </MobileSearchSection>
-        </MobileCategorySection>
+              {subcategories[selectedCategory] && (
+                <MobileCategoryTabs isSub>
+                  {subcategories[selectedCategory].map((sub) => (
+                    <MobileCategoryTab
+                      key={sub}
+                      active={selectedSubCategory === sub}
+                      onClick={() =>
+                        setSelectedSubCategory((prev) =>
+                          prev === sub ? null : sub
+                        )
+                      }
+                    >
+                      {sub}
+                    </MobileCategoryTab>
+                  ))}
+                </MobileCategoryTabs>
+              )}
+            </MobileCategoryTabsWrapper>
+            <MobileSearchSection>
+              <SearchInput
+                type="text"
+                placeholder="Search"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </MobileSearchSection>
+          </MobileCategorySection>
 
-        <MenuContainer>
-          <MenuGrid>
-            {filteredMenu.map(item => (
-              <MenuCard key={item.id}>
-                {item.isNew && <NewBadge>NEW</NewBadge>}
-                {item.isHot && <HotBadge isNewVisible={item.isNew}>HOT</HotBadge>}
-                {item.isIce && (
-                  <IceBadge
-                    isNewVisible={item.isNew}
-                    isHotVisible={item.isHot}
-                  >
-                    ICE
-                  </IceBadge>
-                )}
-                <MenuImageContainer>
-                  <MenuImage src={item.image} alt={item.name} />
-                </MenuImageContainer>
-                <MenuName>{item.name}</MenuName>
-              </MenuCard>
-            ))}
-          </MenuGrid>
-        </MenuContainer>
-      </ContentContainer>
-      <BottomMenu />
-    </PageContainer>
+          <MenuContainer>
+            <MenuGrid>
+              {filteredMenu.map((item) => (
+                <MenuCard key={item.id}>
+                  {item.isNew && <NewBadge>NEW</NewBadge>}
+                  {item.isHot && (
+                    <HotBadge isNewVisible={item.isNew}>HOT</HotBadge>
+                  )}
+                  {item.isIce && (
+                    <IceBadge
+                      isNewVisible={item.isNew}
+                      isHotVisible={item.isHot}
+                    >
+                      ICE
+                    </IceBadge>
+                  )}
+                  <MenuImageContainer>
+                    <MenuImage src={item.image} alt={item.name} />
+                  </MenuImageContainer>
+                  <MenuName>{item.name}</MenuName>
+                </MenuCard>
+              ))}
+            </MenuGrid>
+          </MenuContainer>
+        </ContentContainer>
+        <BottomMenu />
+      </PageContainer>
     </TransitionContainer>
   );
 };
@@ -182,7 +193,7 @@ const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: #ffffff;
+  background-color: #121212;
 `;
 
 const ContentContainer = styled.div`
@@ -207,9 +218,9 @@ const SidebarContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 30px;
-  
+
   @media (max-width: 768px) {
-    display: none; // 모바일에서는 숨김
+    display: none;
   }
 `;
 
@@ -220,12 +231,14 @@ const SearchSection = styled.div`
 const SearchInput = styled.input`
   width: 100%;
   padding: 15px 20px;
-  border: 1px solid #ddd;
+  border: 1px solid #444;
   border-radius: 25px;
   font-size: 16px;
   outline: none;
   box-sizing: border-box;
-  
+  background-color: #242424;
+  color: #e0e0e0;
+
   &:focus {
     border-color: #9c1f23;
     box-shadow: 0 0 0 2px rgba(156, 31, 35, 0.1);
@@ -238,7 +251,7 @@ const SearchInput = styled.input`
 `;
 
 const CategorySection = styled.div`
-  background: #f8f8f8;
+  background: #1e1e1e;
   border-radius: 20px;
   padding: 25px;
   width: 100%;
@@ -246,7 +259,7 @@ const CategorySection = styled.div`
   box-sizing: border-box;
 
   @media (max-width: 768px) {
-    display: none; // 모바일에서는 숨김
+    display: none;
   }
 `;
 
@@ -254,14 +267,14 @@ const CategoryTitle = styled.h3`
   margin: 0 0 20px 0;
   font-size: 18px;
   font-weight: bold;
-  color: #333;
+  color: #e0e0e0;
 `;
 
 const SubCategoryTitle = styled.h4`
   margin: 25px 0 15px 0;
   font-size: 16px;
   font-weight: bold;
-  color: #666;
+  color: #b0b0b0;
 `;
 
 const CategoryList = styled.div`
@@ -272,32 +285,32 @@ const CategoryList = styled.div`
 `;
 
 const CategoryItem = styled.button<{ active: boolean; isSub?: boolean }>`
-  background: ${props => props.active ? 'white' : 'transparent'};
+  background: ${(props) => (props.active ? "white" : "transparent")};
   border: none;
   padding: 12px 15px;
   border-radius: 15px;
-  font-size: ${props => props.isSub ? '14px' : '16px'};
-  font-weight: ${props => props.active ? 'bold' : 'normal'};
-  color: ${props => props.active ? '#9c1f23' : props.isSub ? '#777' : '#333'};
+  font-size: ${(props) => (props.isSub ? "14px" : "16px")};
+  font-weight: ${(props) => (props.active ? "bold" : "normal")};
+  color: ${(props) =>
+    props.active ? "#9c1f23" : props.isSub ? "#b0b0b0" : "#e0e0e0"};
   cursor: pointer;
   transition: all 0.2s ease;
   text-align: left;
   width: 100%;
-  
+
   white-space: normal;
   word-break: break-word;
 
   &:hover {
-    background: ${props => props.active ? 'white' : 'rgba(255, 255, 255, 0.5)'};
-    color: ${props => props.active ? '#9c1f23' : '#9c1f23'};
+    background: ${(props) => (props.active ? "white" : "#333")};
+    color: ${(props) => (props.active ? "#9c1f23" : "#e0e0e0")};
   }
 `;
 
-
 // --- 모바일 레이아웃 스타일 (Buttered_Food_Items.tsx 참고) ---
 const MobileCategorySection = styled.div`
-  display: none; // PC에서는 숨김
-  
+  display: none;
+
   @media (max-width: 768px) {
     display: flex;
     flex-direction: column;
@@ -315,7 +328,7 @@ const MobileCategoryTabsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  background: #f8f8f8;
+  background: #1e1e1e;
   border-radius: 20px;
   padding: 10px;
   gap: 10px;
@@ -341,18 +354,19 @@ const MobileCategoryTabs = styled.div<{ isSub?: boolean }>`
 `;
 
 const MobileCategoryTab = styled.button<{ active: boolean }>`
-  background: ${props => props.active ? 'white' : 'transparent'};
+  background: ${(props) => (props.active ? "white" : "transparent")};
   border: none;
   padding: 10px 10px;
   border-radius: 15px;
   font-size: 16px;
-  font-weight: ${props => props.active ? 'bold' : 'normal'};
-  color: ${props => props.active ? '#333' : '#666'};
+  font-weight: ${(props) => (props.active ? "bold" : "normal")};
+  color: ${(props) => (props.active ? "#333" : "#b0b0b0")};
   cursor: pointer;
   transition: all 0.2s ease;
-  
+
   &:hover {
-    background: ${props => props.active ? 'white' : 'rgba(255, 255, 255, 0.3)'};
+    background: ${(props) =>
+      props.active ? "white" : "rgba(255, 255, 255, 0.3)"};
   }
 
   @media (max-width: 600px) {
@@ -367,7 +381,6 @@ const MobileSearchSection = styled.div`
   align-items: center;
   width: 100%;
 `;
-
 
 const MenuContainer = styled.div`
   flex: 1;
@@ -393,7 +406,7 @@ const MenuGrid = styled.div`
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, minmax(150px, 1fr));
     gap: 15px;
-    justify-content: center; // 모바일에서 가운데 정렬
+    justify-content: center;
   }
 
   @media (max-width: 500px) {
@@ -409,17 +422,17 @@ const MenuGrid = styled.div`
 
 const MenuCard = styled.div`
   position: relative;
-  background: white;
+  background: #1e1e1e;
   border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
   width: 100%;
 
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
   }
 `;
 
@@ -427,7 +440,7 @@ const NewBadge = styled.div`
   position: absolute;
   top: 15px;
   left: 15px;
-  background: #FF7F32;
+  background: #ff7f32;
   color: white;
   padding: 5px 12px;
   border-radius: 15px;
@@ -445,7 +458,7 @@ const NewBadge = styled.div`
 
 const HotBadge = styled.div<{ isNewVisible: boolean }>`
   position: absolute;
-  top: ${props => props.isNewVisible ? '47px' : '15px'};
+  top: ${(props) => (props.isNewVisible ? "47px" : "15px")};
   left: 15px;
   background: #ff1c1c;
   color: white;
@@ -458,7 +471,7 @@ const HotBadge = styled.div<{ isNewVisible: boolean }>`
   @media (max-width: 768px) {
     padding: 4px 10px;
     font-size: 10px;
-    top: ${props => props.isNewVisible ? '35px' : '10px'};
+    top: ${(props) => (props.isNewVisible ? "35px" : "10px")};
     left: 10px;
   }
 `;
@@ -466,10 +479,13 @@ const HotBadge = styled.div<{ isNewVisible: boolean }>`
 const IceBadge = styled.div<{ isNewVisible: boolean; isHotVisible?: boolean }>`
   position: absolute;
   top: ${({ isNewVisible, isHotVisible }) =>
-    isNewVisible && isHotVisible ? '79px' :
-    isHotVisible ? '47px' :
-    isNewVisible ? '47px' :
-    '15px'};
+    isNewVisible && isHotVisible
+      ? "79px"
+      : isHotVisible
+      ? "47px"
+      : isNewVisible
+      ? "47px"
+      : "15px"};
   left: 15px;
   background: #12bcff;
   color: white;
@@ -483,10 +499,13 @@ const IceBadge = styled.div<{ isNewVisible: boolean; isHotVisible?: boolean }>`
     padding: 4px 10px;
     font-size: 10px;
     top: ${({ isNewVisible, isHotVisible }) =>
-      isNewVisible && isHotVisible ? '60px' :
-      isHotVisible ? '35px' :
-      isNewVisible ? '35px' :
-      '10px'};
+      isNewVisible && isHotVisible
+        ? "60px"
+        : isHotVisible
+        ? "35px"
+        : isNewVisible
+        ? "35px"
+        : "10px"};
     left: 10px;
   }
 `;
@@ -496,7 +515,7 @@ const MenuImageContainer = styled.div`
   width: 100%;
   padding-bottom: 116.67%;
   overflow: hidden;
-  background: #f5f5f5;
+  background: #242424;
 `;
 
 const MenuImage = styled.img`
@@ -518,7 +537,7 @@ const MenuName = styled.h3`
   margin: 0;
   font-size: 16px;
   font-weight: 500;
-  color: #333;
+  color: #e0e0e0;
   text-align: center;
   line-height: 1.4;
 

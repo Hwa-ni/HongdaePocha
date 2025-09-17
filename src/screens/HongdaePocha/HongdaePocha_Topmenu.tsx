@@ -24,7 +24,7 @@ const Topmenu: React.FC = () => {
   const isHomePage = location.pathname === "/";
 
   useEffect(() => {
-    // Home 페이지가 아닌 경우 항상 흰 배경
+    // Home 페이지가 아닌 경우 항상 어두운 배경
     if (!isHomePage) {
       setIsScrolledPastPhotoline(true);
       return;
@@ -141,7 +141,7 @@ const NavBarContainer = styled.div<{ isScrolledPastPhotoline: boolean }>`
   left: 0;
   width: 100%;
   background: ${(props) =>
-    props.isScrolledPastPhotoline ? "white" : "transparent"};
+    props.isScrolledPastPhotoline ? "#121212" : "transparent"};
   z-index: 2000;
   transition: background 0.3s ease;
 `;
@@ -154,13 +154,13 @@ const NavItem = styled.div<{ isScrolledPastPhotoline: boolean }>`
   font-weight: bold;
   font-size: 16px;
   cursor: pointer;
-  color: ${(props) => (props.isScrolledPastPhotoline ? "#9c1f24" : "#ffffff")};
+  color: ${(props) => (props.isScrolledPastPhotoline ? "#e0e0e0" : "#ffffff")};
   user-select: none;
   transition: color 0.2s ease;
 
   &:hover {
     color: ${(props) =>
-      props.isScrolledPastPhotoline ? "#ff5100" : "#9c1f24"};
+      props.isScrolledPastPhotoline ? "#9c1f24" : "#9c1f24"};
   }
 `;
 
@@ -206,7 +206,7 @@ const MobileMenuButton = styled.div<{ isScrolledPastPhotoline: boolean }>`
     cursor: pointer;
     padding-right: 20px;
     color: ${(props) =>
-      props.isScrolledPastPhotoline ? "#9c1f24" : "#ffffff"};
+      props.isScrolledPastPhotoline ? "#e0e0e0" : "#ffffff"};
   }
 `;
 
@@ -215,7 +215,7 @@ const MobileMenu = styled.div`
   top: 60px;
   left: 0;
   width: 100%;
-  background-color: white;
+  background-color: #121212;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
@@ -226,9 +226,8 @@ const MobileNavItem = styled(NavItem)`
   width: 100%;
   height: auto;
   padding: 15px 20px;
-  border-bottom: 1px solid #eee;
-  /* 이 컴포넌트는 isScrolledPastPhotoline이 항상 true인 상태의 색상을 가집니다. */
-  color: #9c1f24;
+  border-bottom: 1px solid #333;
+  color: #e0e0e0;
 
   &:hover {
     color: #9c1f24;

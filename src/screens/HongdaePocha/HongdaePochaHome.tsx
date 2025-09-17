@@ -15,10 +15,10 @@ const Title = styled.h2`
   font-weight: bold;
   text-align: center;
   margin-bottom: 50px;
-  color: #333;
+  color: #bf252a; /* 다크모드 글씨색 */
 `;
 const Wrapper = styled.div`
-  background-color: #faf9f6;
+  background-color: #1a1a1a; /* 다크모드 배경색 */
   width: 100vw;
 `;
 
