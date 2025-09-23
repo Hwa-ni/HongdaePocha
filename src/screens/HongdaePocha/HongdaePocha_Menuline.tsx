@@ -212,7 +212,7 @@ const Wrapper = styled.div<{ $isTransitioning: boolean }>`
 
 // MenuItem 스타일 수정
 const MenuItem = styled.div<{ $isMobile: boolean }>`
-  background-color: #ffffff;
+  background-color: #1e1e1e;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
@@ -239,7 +239,7 @@ const MenuItem = styled.div<{ $isMobile: boolean }>`
 
   span {
     font-size: 15px;
-    color: #333;
+    color: #ffffff;
     font-weight: 500;
     padding: 16px;
   }

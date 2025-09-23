@@ -17,9 +17,12 @@ const Title = styled.h2`
   margin-bottom: 50px;
   color: #bf252a; /* 다크모드 글씨색 */
 `;
+
+// Wrapper 컴포넌트 수정
 const Wrapper = styled.div`
   background-color: #1a1a1a; /* 다크모드 배경색 */
-  width: 100vw;
+  width: 100%; /* 너비를 100%로 변경 */
+  overflow-x: hidden; /* 수평 스크롤 숨김 */
 `;
 
 // 이미지와 오버레이, 텍스트를 담을 새로운 컨테이너 컴포넌트

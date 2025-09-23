@@ -15,7 +15,7 @@ interface IndicatorProps {
 }
 
 const MoreButton = styled.button`
-  background: #2563eb;
+  background: #9c1f24; /* 버튼 색상을 붉은색으로 변경 */
   color: white;
   padding: 12px 24px;
   border-radius: 24px;
@@ -23,12 +23,12 @@ const MoreButton = styled.button`
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+  box-shadow: 0 4px 12px rgba(156, 31, 36, 0.25); /* 그림자 색상 조정 */
 
   &:hover {
-    background: #1d4ed8;
+    background: #6b1519; /* 호버 색상 조정 */
     transform: scale(1.05);
-    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+    box-shadow: 0 8px 20px rgba(156, 31, 36, 0.4);
   }
 
   // 모바일에서 너비 조정
@@ -44,21 +44,21 @@ const SectionContainer = styled.div`
   justify-content: center;
   align-items: center;
   padding: 2rem 1rem;
-  background: #1a1a1a;
+  background: #1a1a1a; /* 배경색을 어둡게 변경 */
   min-height: 80vh;
 `;
 
 const ImageCard = styled.div`
   width: 80vw;
-  background: #fff;
+  background: #242424; /* 카드 배경색을 어둡게 변경 */
   border-radius: 24px;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4); /* 그림자 진하게 변경 */
   overflow: hidden;
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover {
     transform: scale(1.02);
-    box-shadow: 0 35px 70px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 35px 70px rgba(0, 0, 0, 0.5); /* 호버 시 그림자 진하게 변경 */
   }
 
   @media (max-width: 768px) {
@@ -101,7 +101,7 @@ const NavButton = styled.button<NavButtonProps>`
   top: 50%;
   transform: translateY(-50%);
   ${(props) => (props.direction === "left" ? "left: 24px;" : "right: 24px;")}
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.1); /* 배경색을 반투명하게 변경 */
   backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 50%;
@@ -112,16 +112,16 @@ const NavButton = styled.button<NavButtonProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #374151;
+  color: #e0e0e0; /* 글씨색을 밝게 변경 */
   font-size: 1.5rem;
   font-weight: bold;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover {
-    background: rgba(255, 255, 255, 1);
+    background: rgba(255, 255, 255, 0.2); /* 호버 색상 변경 */
     transform: translateY(-50%) scale(1.1);
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
   }
 
   // 모바일 환경일 때 화살표 숨기기
@@ -146,16 +146,16 @@ const Indicator = styled.button<IndicatorProps>`
   border: none;
   cursor: pointer;
   background: ${(props) =>
-    props.active ? "#ffffff" : "rgba(255, 255, 255, 0.6)"};
+    props.active ? "#9c1f24" : "rgba(255, 255, 255, 0.4)"}; /* 색상 변경 */
   transform: ${(props) => (props.active ? "scale(1.25)" : "scale(1)")};
   box-shadow: ${(props) =>
     props.active
-      ? "0 4px 12px rgba(255, 255, 255, 0.5), 0 0 0 2px rgba(255, 255, 255, 0.5)"
-      : "none"};
+      ? "0 4px 12px rgba(156, 31, 36, 0.5), 0 0 0 2px rgba(156, 31, 36, 0.5)"
+      : "none"}; /* 그림자 색상 조정 */
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover {
-    background: rgba(255, 255, 255, 0.9);
+    background: #9c1f24; /* 호버 색상 변경 */
     transform: scale(1.1);
   }
 `;
@@ -193,9 +193,9 @@ const Description = styled.p`
 `;
 
 const BottomInfoBar = styled.div`
-  background: linear-gradient(to right, #f8fafc 0%, #ffffff 100%);
-  padding: 24px; // 패딩을 좀 더 넓게 줍니다.
-  border-top: 1px solid #e5e7eb;
+  background: #1a1a1a; /* 배경색을 어둡게 변경 */
+  padding: 24px;
+  border-top: 1px solid #333; /* 경계선 색상 조정 */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -204,7 +204,7 @@ const BottomInfoBar = styled.div`
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: center;
-    gap: 16px; // 항목 간 간격 추가
+    gap: 16px;
   }
 `;
 
@@ -216,39 +216,39 @@ const InfoSection = styled.div`
   // 모바일에서 가운데 정렬을 위해
   @media (max-width: 768px) {
     justify-content: center;
-    width: 100%; // 너비를 꽉 채워서 가운데 정렬이 잘 보이도록
+    width: 100%;
   }
 `;
 
 const IconContainer = styled.div`
   width: 48px;
   height: 48px;
-  background: #dbeafe;
+  background: #333; /* 배경색을 어둡게 변경 */
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #2563eb;
+  color: #e0e0e0; /* 아이콘 색상을 밝게 변경 */
 `;
 
 const InfoText = styled.div`
   h4 {
     font-size: 0.875rem;
-    color: #6b7280;
+    color: #b0b0b0; /* 글씨색을 밝은 회색으로 변경 */
     margin-bottom: 2px;
   }
 
   p {
     font-size: 1.125rem;
     font-weight: 600;
-    color: #374151;
+    color: #e0e0e0; /* 글씨색을 밝게 변경 */
   }
 `;
 
 // React 컴포넌트
 const StoreImageSection: React.FC = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [touchStartX, setTouchStartX] = useState(0); // 터치 시작 X 좌표 상태 추가
+  const [touchStartX, setTouchStartX] = useState(0);
 
   // 이미지 경로 배열
   const storeImages = [
@@ -284,7 +284,7 @@ const StoreImageSection: React.FC = () => {
     const touchEndX = e.changedTouches[0].clientX;
     const diff = touchStartX - touchEndX;
 
-    // 스와이프 민감도 설정 (50px -> 30px로 낮춤)
+    // 스와이프 민감도 설정 (30px)
     if (Math.abs(diff) > 30) {
       if (diff > 0) {
         // 오른쪽에서 왼쪽으로 스와이프 (다음 이미지)
@@ -305,8 +305,8 @@ const StoreImageSection: React.FC = () => {
     <SectionContainer>
       <ImageCard>
         <ImageWrapper
-          onTouchStart={handleTouchStart} // 이벤트 핸들러 연결
-          onTouchEnd={handleTouchEnd} // 이벤트 핸들러 연결
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
         >
           <ImageContainer currentImageIndex={currentImageIndex}>
             {storeImages.map((image, index) => (

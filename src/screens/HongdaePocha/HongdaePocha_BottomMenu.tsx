@@ -75,14 +75,14 @@ const TextSection = styled.div`
 const Line = styled.p`
   margin: 4px 0;
   font-size: 14px;
-  color: #e0e0e0; /* 본문 글자색을 밝은 회색으로 변경 */
+  color: #be262b; /* 본문 글자색을 밝은 회색으로 변경 */
 
   strong {
-    color: #9c1f24; /* 제목 글자색을 붉은색으로 설정 */
+    color: #be262b; /* 제목 글자색을 붉은색으로 설정 */
   }
 
   a {
-    color: #9c1f24; /* 링크 글자색을 붉은색으로 설정 */
+    color: #be262b; /* 링크 글자색을 붉은색으로 설정 */
     text-decoration: none;
     font-weight: normal;
     transition: font-weight 0.3s ease, opacity 0.3s ease;
