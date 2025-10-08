@@ -307,6 +307,7 @@ const CategoryItem = styled.button<{ active: boolean; isSub?: boolean }>`
   }
 `;
 
+// --- 모바일 레이아웃 스타일 (Buttered_Food_Items.tsx 참고) ---
 const MobileCategorySection = styled.div`
   display: none;
 
