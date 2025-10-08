@@ -95,6 +95,7 @@ export default Buttered_About;
 const Container = styled.div`
   min-height: 100vh;
   background-color: #fafafa;
+  overflow-x: hidden;
 `;
 
 // Combined Story Section with shared background

@@ -189,11 +189,18 @@ const MenuListPage = () => {
 
 export default MenuListPage;
 
+// =========================================================
+// 스타일 영역
+// =========================================================
+
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   background-color: #121212;
+  /* 가로 스크롤 강제 방지 */
+  width: 100%;
+  overflow-x: hidden;
 `;
 
 const ContentContainer = styled.div`
@@ -206,12 +213,15 @@ const ContentContainer = styled.div`
 
   @media (max-width: 768px) {
     flex-direction: column;
+    /* 모바일 좌우 패딩 10px 유지 */
     padding: 20px 10px;
     gap: 20px;
+    width: 100%;
+    box-sizing: border-box;
   }
 `;
 
-// --- PC 레이아웃 스타일 ---
+// --- PC 레이아웃 스타일 (생략) ---
 const SidebarContainer = styled.div`
   width: 280px;
   min-width: 280px;
@@ -307,7 +317,7 @@ const CategoryItem = styled.button<{ active: boolean; isSub?: boolean }>`
   }
 `;
 
-// --- 모바일 레이아웃 스타일 (Buttered_Food_Items.tsx 참고) ---
+// --- 모바일 레이아웃 스타일 (최종 수정) ---
 const MobileCategorySection = styled.div`
   display: none;
 
@@ -317,6 +327,8 @@ const MobileCategorySection = styled.div`
     align-items: flex-start;
     gap: 20px;
     margin-bottom: 20px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   @media (max-width: 600px) {
@@ -330,27 +342,33 @@ const MobileCategoryTabsWrapper = styled.div`
   align-items: flex-start;
   background: #1e1e1e;
   border-radius: 20px;
-  padding: 10px;
+  /* [수정] 내부 padding 제거. 여백은 탭 버튼의 마진으로 관리 */
+  padding: 10px 0;
   gap: 10px;
   width: 100%;
 
+  overflow-x: hidden;
+  padding-bottom: 0;
+
   @media (max-width: 600px) {
-    padding: 8px;
+    padding: 8px 0;
+    padding-bottom: 0;
   }
 `;
 
 const MobileCategoryTabs = styled.div<{ isSub?: boolean }>`
-  display: inline-flex;
+  display: flex;
+  /* 탭이 화면을 벗어나면 다음 줄로 넘어가도록 변경 */
   flex-wrap: wrap;
   justify-content: flex-start;
   background: transparent;
   border-radius: 0;
   padding: 0;
-  gap: 10px;
+  /* [수정] gap 제거. 탭 버튼의 마진으로 관리 */
+  gap: 0;
 
-  @media (max-width: 600px) {
-    gap: 5px;
-  }
+  /* [수정] width: 100% 제거 */
+  /* width: 100%; */
 `;
 
 const MobileCategoryTab = styled.button<{ active: boolean }>`
@@ -364,6 +382,19 @@ const MobileCategoryTab = styled.button<{ active: boolean }>`
   cursor: pointer;
   transition: all 0.2s ease;
 
+  /* [추가] 탭 버튼 자체에 마진을 주어 간격과 양 끝 여백 모두 확보 */
+  margin: 0 5px 10px 10px;
+
+  /* 첫 번째 탭 버튼의 좌측 마진은 10px 유지 (MobileCategoryTabsWrapper의 패딩과 같은 효과) */
+  &:first-child {
+    margin-left: 10px;
+  }
+
+  /* 마지막 탭 버튼의 우측 마진은 10px 유지 (MobileCategoryTabsWrapper의 패딩과 같은 효과) */
+  &:last-child {
+    margin-right: 10px;
+  }
+
   &:hover {
     background: ${(props) =>
       props.active ? "white" : "rgba(255, 255, 255, 0.3)"};
@@ -372,6 +403,14 @@ const MobileCategoryTab = styled.button<{ active: boolean }>`
   @media (max-width: 600px) {
     padding: 8px 10px;
     font-size: 14px;
+    margin: 0 4px 8px 8px;
+
+    &:first-child {
+      margin-left: 8px;
+    }
+    &:last-child {
+      margin-right: 8px;
+    }
   }
 `;
 
@@ -384,33 +423,33 @@ const MobileSearchSection = styled.div`
 
 const MenuContainer = styled.div`
   flex: 1;
+  display: flex;
+  justify-content: center;
 `;
 
 const MenuGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 300px);
+  grid-template-columns: repeat(3, 1fr);
   gap: 30px;
-  justify-content: start;
-  align-items: start;
+  justify-items: center;
+  width: 100%;
 
   @media (max-width: 1200px) {
-    grid-template-columns: repeat(3, 280px);
     gap: 25px;
   }
 
   @media (max-width: 900px) {
-    grid-template-columns: repeat(2, 300px);
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
   }
 
   @media (max-width: 768px) {
-    grid-template-columns: repeat(2, minmax(150px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 15px;
-    justify-content: center;
   }
 
   @media (max-width: 500px) {
-    grid-template-columns: repeat(2, minmax(130px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 10px;
   }
 
