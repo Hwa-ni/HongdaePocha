@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Popup from "./HongdaePocha/popup";
 
 // 뷰포트 너비를 기준으로 모든 단위를 유동적으로 변경
 const Wrapper = styled.div`
@@ -153,6 +154,7 @@ const HomeMenuBenner: React.FC = () => {
   return (
     <Wrapper>
       <Container>
+        <Popup />
         {/* Left Card */}
         <Card1>
           <CardTitle>
