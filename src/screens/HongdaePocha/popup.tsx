@@ -139,7 +139,8 @@ const Popup = () => {
 
         <PopupFooter>
           {/* 추가된 볼드체 문구 */}
-          <PromoText>Half price off the marked prices</PromoText>
+          <PromoText>*Half price off the marked prices</PromoText>
+          <PromoText>*Dine in ONLY</PromoText>
 
           {/* 하단 하루 동안 보지 않기 버튼 */}
           <FooterButton onClick={closeForADay}>
