@@ -1,14 +1,10 @@
-// src/screens/Buttered/HongdaePocha_Photoline.tsx
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const images = [
-  process.env.PUBLIC_URL +
-    "/assets/HongdaePocha/HongdaePocha_store_image/0I0A8967.jpg",
-  process.env.PUBLIC_URL +
-    "/assets/HongdaePocha/HongdaePocha_store_image/0I0A8975.jpg",
-  process.env.PUBLIC_URL +
-    "/assets/HongdaePocha/HongdaePocha_store_image/0I0A8986.jpg",
+  process.env.PUBLIC_URL + "/assets/HongdaePocha/HongdaePocha_store_image/insert2.jpg",
+  process.env.PUBLIC_URL + "/assets/HongdaePocha/HongdaePocha_store_image/insert3.jpg",
+  process.env.PUBLIC_URL + "/assets/HongdaePocha/HongdaePocha_store_image/insert6.jpg",
 ];
 
 const Photoline: React.FC = () => {
@@ -25,7 +21,7 @@ const Photoline: React.FC = () => {
   return (
     <Container id="photoline-container">
       <ImageOverlayContainer>
-        <Slider index={currentIndex} total={images.length}>
+        <Slider index={currentIndex}>
           {images.map((img, idx) => (
             <StyledImage key={idx} src={img} alt={`Slide ${idx + 1}`} />
           ))}
@@ -52,7 +48,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
-  padding-top: 56.25%; /* 16:9 비율 유지를 위한 패딩 (9 / 16 = 0.5625) */
+  padding-top: 56.25%;
   position: relative;
   overflow: hidden;
 `;
@@ -65,11 +61,11 @@ const ImageOverlayContainer = styled.div`
   height: 100%;
 `;
 
-const Slider = styled.div<{ index: number; total: number }>`
+const Slider = styled.div<{ index: number }>`
   display: flex;
   height: 100%;
-  width: ${({ total }) => total * 100}%;
-  transform: translateX(-${({ index, total }) => index * (100 / total)}%);
+  width: 100%;
+  transform: translateX(-${({ index }) => index * 100}%);
   transition: transform 0.5s ease-in-out;
 `;
 
@@ -77,7 +73,7 @@ const StyledImage = styled.img`
   width: 100%;
   height: 100%;
   flex-shrink: 0;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
   display: block;
 `;

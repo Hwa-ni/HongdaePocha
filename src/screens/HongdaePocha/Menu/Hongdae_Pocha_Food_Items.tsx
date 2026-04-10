@@ -27,7 +27,6 @@ const subcategories: { [key: string]: string[] } = {
     lang.drinkMenu.cocktails,
     lang.drinkMenu.softdrink,
   ],
-
   [lang.itemMenu.bbqgrill]: [
     lang.bbqgrillmenu.beef,
     lang.bbqgrillmenu.pork,
@@ -37,9 +36,7 @@ const subcategories: { [key: string]: string[] } = {
 
 const MenuListPage = () => {
   const [selectedCategory, setSelectedCategory] = useState(lang.itemMenu.all);
-  const [selectedSubCategory, setSelectedSubCategory] = useState<string | null>(
-    null
-  );
+  const [selectedSubCategory, setSelectedSubCategory] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredMenu = menuData.filter((item) => {
@@ -54,12 +51,16 @@ const MenuListPage = () => {
     return matchesCategory && matchesSubCategory && matchesSearch;
   });
 
+  const renderSpiceLevel = (level?: number) => {
+    if (!level || level <= 0) return null;
+    return "●".repeat(level);
+  };
+
   return (
     <TransitionContainer>
       <PageContainer>
         <Topmenu />
         <ContentContainer>
-          {/* PC 화면용 레이아웃 */}
           <SidebarContainer>
             <SearchSection>
               <SearchInput
@@ -87,31 +88,32 @@ const MenuListPage = () => {
                 ))}
               </CategoryList>
 
-              {subcategories[selectedCategory] && (
-                <>
-                  <SubCategoryTitle>Subcategories</SubCategoryTitle>
-                  <CategoryList>
-                    {subcategories[selectedCategory].map((sub) => (
-                      <CategoryItem
-                        key={sub}
-                        active={selectedSubCategory === sub}
-                        onClick={() =>
-                          setSelectedSubCategory((prev) =>
-                            prev === sub ? null : sub
-                          )
-                        }
-                        isSub
-                      >
-                        {sub}
-                      </CategoryItem>
-                    ))}
-                  </CategoryList>
-                </>
-              )}
+              <SubCategoryWrapper>
+                {subcategories[selectedCategory] && (
+                  <>
+                    <SubCategoryTitle>Subcategories</SubCategoryTitle>
+                    <CategoryList>
+                      {subcategories[selectedCategory].map((sub) => (
+                        <CategoryItem
+                          key={sub}
+                          active={selectedSubCategory === sub}
+                          onClick={() =>
+                            setSelectedSubCategory((prev) =>
+                              prev === sub ? null : sub
+                            )
+                          }
+                          isSub
+                        >
+                          {sub}
+                        </CategoryItem>
+                      ))}
+                    </CategoryList>
+                  </>
+                )}
+              </SubCategoryWrapper>
             </CategorySection>
           </SidebarContainer>
 
-          {/* 모바일 화면용 레이아웃 */}
           <MobileCategorySection>
             <MobileCategoryTabsWrapper>
               <MobileCategoryTabs>
@@ -157,27 +159,53 @@ const MenuListPage = () => {
           </MobileCategorySection>
 
           <MenuContainer>
+            <SpiceGuideWrapper>
+              <ViewMenuButton 
+                onClick={() => window.open("https://vuzagroup.direct.quickconnect.to/HongdaePocha_Menu/index.html", "_blank", "noopener,noreferrer")}
+              >
+                View Menu Board
+              </ViewMenuButton>
+              <SpiceGuide>
+                <GuideItem>● Little Spicy</GuideItem>
+                <GuideItem>●● Spicy</GuideItem>
+                <GuideItem>●●● Very Spicy</GuideItem>
+              </SpiceGuide>
+            </SpiceGuideWrapper>
+
             <MenuGrid>
-              {filteredMenu.map((item) => (
-                <MenuCard key={item.id}>
-                  {item.isNew && <NewBadge>NEW</NewBadge>}
-                  {item.isHot && (
-                    <HotBadge isNewVisible={item.isNew}>HOT</HotBadge>
-                  )}
-                  {item.isIce && (
-                    <IceBadge
-                      isNewVisible={item.isNew}
-                      isHotVisible={item.isHot}
-                    >
-                      ICE
-                    </IceBadge>
-                  )}
-                  <MenuImageContainer>
-                    <MenuImage src={item.image} alt={item.name} />
-                  </MenuImageContainer>
-                  <MenuName>{item.name}</MenuName>
-                </MenuCard>
-              ))}
+              {filteredMenu.length === 0 ? (
+                <EmptyMessage>No items found.</EmptyMessage>
+              ) : (
+                filteredMenu.map((item) => (
+                  <MenuCard key={item.id}>
+                    {item.isNew && <NewBadge>NEW</NewBadge>}
+                    {item.isHot && (
+                      <HotBadge isNewVisible={item.isNew}>HOT</HotBadge>
+                    )}
+                    {item.isIce && (
+                      <IceBadge
+                        isNewVisible={item.isNew}
+                        isHotVisible={item.isHot}
+                      >
+                        ICE
+                      </IceBadge>
+                    )}
+                    {item.spiceLevel && item.spiceLevel > 0 && (
+                      <SpiceBadge
+                        isNewVisible={item.isNew}
+                        isHotVisible={item.isHot}
+                        isIceVisible={item.isIce}
+                      >
+                        {renderSpiceLevel(item.spiceLevel)}
+                      </SpiceBadge>
+                    )}
+                    <MenuImageContainer>
+                      {item.image && <MenuImage src={item.image} alt={item.name} />}
+                    </MenuImageContainer>
+                    <MenuName>{item.name}</MenuName>
+                  </MenuCard>
+                ))
+              )}
             </MenuGrid>
           </MenuContainer>
         </ContentContainer>
@@ -189,45 +217,46 @@ const MenuListPage = () => {
 
 export default MenuListPage;
 
-// =========================================================
-// 스타일 영역
-// =========================================================
-
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   background-color: #121212;
-  /* 가로 스크롤 강제 방지 */
   width: 100%;
   overflow-x: hidden;
+  align-items: stretch;
 `;
 
 const ContentContainer = styled.div`
   flex: 1;
+  width: 100%;
   max-width: 1400px;
   margin: 0 auto;
   padding: 40px 20px;
   display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
   gap: 40px;
+  box-sizing: border-box;
 
   @media (max-width: 768px) {
     flex-direction: column;
-    /* 모바일 좌우 패딩 10px 유지 */
+    align-items: stretch;
     padding: 20px 10px;
     gap: 20px;
-    width: 100%;
-    box-sizing: border-box;
   }
 `;
 
-// --- PC 레이아웃 스타일 (생략) ---
 const SidebarContainer = styled.div`
   width: 280px;
   min-width: 280px;
   display: flex;
   flex-direction: column;
   gap: 30px;
+  align-self: flex-start;
+  position: sticky;
+  top: 20px;
 
   @media (max-width: 768px) {
     display: none;
@@ -265,7 +294,6 @@ const CategorySection = styled.div`
   border-radius: 20px;
   padding: 25px;
   width: 100%;
-  min-height: 400px;
   box-sizing: border-box;
 
   @media (max-width: 768px) {
@@ -285,6 +313,10 @@ const SubCategoryTitle = styled.h4`
   font-size: 16px;
   font-weight: bold;
   color: #b0b0b0;
+`;
+
+const SubCategoryWrapper = styled.div`
+  min-height: 220px;
 `;
 
 const CategoryList = styled.div`
@@ -307,7 +339,6 @@ const CategoryItem = styled.button<{ active: boolean; isSub?: boolean }>`
   transition: all 0.2s ease;
   text-align: left;
   width: 100%;
-
   white-space: normal;
   word-break: break-word;
 
@@ -317,7 +348,6 @@ const CategoryItem = styled.button<{ active: boolean; isSub?: boolean }>`
   }
 `;
 
-// --- 모바일 레이아웃 스타일 (최종 수정) ---
 const MobileCategorySection = styled.div`
   display: none;
 
@@ -330,10 +360,6 @@ const MobileCategorySection = styled.div`
     width: 100%;
     box-sizing: border-box;
   }
-
-  @media (max-width: 600px) {
-    gap: 15px;
-  }
 `;
 
 const MobileCategoryTabsWrapper = styled.div`
@@ -342,33 +368,21 @@ const MobileCategoryTabsWrapper = styled.div`
   align-items: flex-start;
   background: #1e1e1e;
   border-radius: 20px;
-  /* [수정] 내부 padding 제거. 여백은 탭 버튼의 마진으로 관리 */
   padding: 10px 0;
   gap: 10px;
   width: 100%;
-
   overflow-x: hidden;
   padding-bottom: 0;
-
-  @media (max-width: 600px) {
-    padding: 8px 0;
-    padding-bottom: 0;
-  }
 `;
 
 const MobileCategoryTabs = styled.div<{ isSub?: boolean }>`
   display: flex;
-  /* 탭이 화면을 벗어나면 다음 줄로 넘어가도록 변경 */
   flex-wrap: wrap;
   justify-content: flex-start;
   background: transparent;
   border-radius: 0;
   padding: 0;
-  /* [수정] gap 제거. 탭 버튼의 마진으로 관리 */
   gap: 0;
-
-  /* [수정] width: 100% 제거 */
-  /* width: 100%; */
 `;
 
 const MobileCategoryTab = styled.button<{ active: boolean }>`
@@ -381,36 +395,13 @@ const MobileCategoryTab = styled.button<{ active: boolean }>`
   color: ${(props) => (props.active ? "#333" : "#b0b0b0")};
   cursor: pointer;
   transition: all 0.2s ease;
-
-  /* [추가] 탭 버튼 자체에 마진을 주어 간격과 양 끝 여백 모두 확보 */
   margin: 0 5px 10px 10px;
 
-  /* 첫 번째 탭 버튼의 좌측 마진은 10px 유지 (MobileCategoryTabsWrapper의 패딩과 같은 효과) */
   &:first-child {
     margin-left: 10px;
   }
-
-  /* 마지막 탭 버튼의 우측 마진은 10px 유지 (MobileCategoryTabsWrapper의 패딩과 같은 효과) */
   &:last-child {
     margin-right: 10px;
-  }
-
-  &:hover {
-    background: ${(props) =>
-      props.active ? "white" : "rgba(255, 255, 255, 0.3)"};
-  }
-
-  @media (max-width: 600px) {
-    padding: 8px 10px;
-    font-size: 14px;
-    margin: 0 4px 8px 8px;
-
-    &:first-child {
-      margin-left: 8px;
-    }
-    &:last-child {
-      margin-right: 8px;
-    }
   }
 `;
 
@@ -424,7 +415,69 @@ const MobileSearchSection = styled.div`
 const MenuContainer = styled.div`
   flex: 1;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  min-height: 400px;
+`;
+
+const SpiceGuideWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 15px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    justify-content: center;
+  }
+`;
+
+const ViewMenuButton = styled.button`
+  background-color: #9c1f23;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 8px 25px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #b32428;
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 768px) {
+    padding: 10px 20px;
+    font-size: 14px;
+    width: auto;
+  }
+`;
+
+const SpiceGuide = styled.div`
+  display: flex;
+  gap: 20px;
+  padding: 8px 25px;
+  background-color: white;
+  border-radius: 30px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 768px) {
+    gap: 15px;
+    padding: 6px 20px;
+  }
+`;
+
+const GuideItem = styled.span`
+  color: #9c1f23;
+  font-weight: bold;
+  font-size: 14px;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
 
 const MenuGrid = styled.div`
@@ -457,6 +510,14 @@ const MenuGrid = styled.div`
     grid-template-columns: repeat(1, 1fr);
     gap: 10px;
   }
+`;
+
+const EmptyMessage = styled.div`
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #666;
+  font-size: 16px;
+  padding: 60px 0;
 `;
 
 const MenuCard = styled.div`
@@ -521,10 +582,10 @@ const IceBadge = styled.div<{ isNewVisible: boolean; isHotVisible?: boolean }>`
     isNewVisible && isHotVisible
       ? "79px"
       : isHotVisible
-      ? "47px"
-      : isNewVisible
-      ? "47px"
-      : "15px"};
+        ? "47px"
+        : isNewVisible
+          ? "47px"
+          : "15px"};
   left: 15px;
   background: #12bcff;
   color: white;
@@ -538,29 +599,66 @@ const IceBadge = styled.div<{ isNewVisible: boolean; isHotVisible?: boolean }>`
     padding: 4px 10px;
     font-size: 10px;
     top: ${({ isNewVisible, isHotVisible }) =>
-      isNewVisible && isHotVisible
-        ? "60px"
-        : isHotVisible
+    isNewVisible && isHotVisible
+      ? "60px"
+      : isHotVisible
         ? "35px"
         : isNewVisible
-        ? "35px"
-        : "10px"};
+          ? "35px"
+          : "10px"};
+    left: 10px;
+  }
+`;
+
+const SpiceBadge = styled.div<{ isNewVisible: boolean; isHotVisible?: boolean; isIceVisible?: boolean }>`
+  position: absolute;
+  top: ${({ isNewVisible, isHotVisible, isIceVisible }) => {
+    let count = 0;
+    if (isNewVisible) count++;
+    if (isHotVisible) count++;
+    if (isIceVisible) count++;
+
+    if (count === 3) return "111px";
+    if (count === 2) return "79px";
+    if (count === 1) return "47px";
+    return "15px";
+  }};
+  left: 15px;
+  background: #9c1f23;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: bold;
+  z-index: 2;
+  letter-spacing: 1px;
+
+  @media (max-width: 768px) {
+    padding: 4px 10px;
+    font-size: 10px;
+    top: ${({ isNewVisible, isHotVisible, isIceVisible }) => {
+    let count = 0;
+    if (isNewVisible) count++;
+    if (isHotVisible) count++;
+    if (isIceVisible) count++;
+
+    if (count === 3) return "85px";
+    if (count === 2) return "60px";
+    if (count === 1) return "35px";
+    return "10px";
+  }};
     left: 10px;
   }
 `;
 
 const MenuImageContainer = styled.div`
-  position: relative;
   width: 100%;
-  padding-bottom: 116.67%;
+  aspect-ratio: 6 / 7;
   overflow: hidden;
   background: #242424;
 `;
 
 const MenuImage = styled.img`
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;

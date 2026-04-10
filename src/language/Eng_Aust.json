@@ -6,7 +6,7 @@
   },
   "itemMenu": {
     "all": "ALL",
-    "drinks":"DRINKS",
+    "drinks": "DRINKS",
     "bbqgrill": "BBQ / Grill",
     "special": "Hongdae Pocha Specials",
     "Pochastaplestoshare": "Pocha Staples to Share",
@@ -19,17 +19,15 @@
     "beer": "BEER",
     "makgeolli": "MAKGEOLLI",
     "wine": "WINE",
-    "kwine" : "KOREAN WINE",
-    "cocktails" : "Cocktails",
+    "kwine": "KOREAN WINE",
+    "cocktails": "Cocktails",
     "softdrink": "SOFT DRINKS"
   },
-
   "bbqgrillmenu": {
     "beef": "BEEF",
     "pork": "PORK",
     "friend": "K-BBQ & FRIENDS"
   },
-  
   "Pochastaplestoshare": {
     "gogijibdoenjangjjigae": "GOGIJIB DOENJANG JJIGAE"
   },
@@ -37,30 +35,27 @@
     "bananaooyooicecream": "바나나우유 아이스크림 (Banana Oo-yoo Ice Cream)",
     "nokchaicecream": "녹차 아이스크림 (Nokcha Ice Cream)"
   },
-
   "about": {
     "story": {
       "title": "Our Story",
       "paragraph1": "Hongdae Pocha BBQ",
       "paragraph2": "Following the success of Buttered, the Korean bakery café known for bringing \n Seoul’s Seongsu-dong vibes to Sydney with our signature salt bread and tissue bread range \n we proudly launched Hongdae Pocha & BBQ, opened right next door.Inspired by the neon-lit streets of Euljiro where there is a flood of all types of pochas on the streets and the vibrant youth culture of Hongdae \n this late-night Korean street food & BBQ spot brings a bold new energy to Chippendale’s dining scene."
     },
-
     "story2": {
       "paragraph1": "At Hongdae Pocha",
       "paragraph2": "guests can enjoy authentic Korean charcoal-grilled BBQ, anju-style small plates, and classic dishes like tteokbokki, army stew (budae-jjigae), spicy chicken feet, and cheese-covered corn cheese \n all served under colorful retro lighting and vintage signage that recreate the raw \n industrial charm of Seoul’s back-alley pojangmachas.\n \n Not only that, there are very unique dishes that aren’t usually served at pochas \n which will definitely water your mouths such as beef tartare on hash brown \n with southern Korean seaside recipe (very own from the Chef’s hometown)\n prawn water cress pancake, many premium cuts to choose from for your Korean BBQ experience \n including jebichuri which is a super rare cut to be found in Sydney."
     },
-
     "story3": {
       "paragraph1": "Hongdae Garlic bomb",
       "paragraph2": "Jumuluk is also served without any soy marinade unlike other jumuluk dishes around Sydney. \n Not to mention KFC (Korean Fried Chicken) two ways because who only wants one style?  \n You may think pochas are not where you barbecue but you get to barbecue and enjoy \n all kinds of unique anju plates at Hongdae Pocha and enjoy drinks into the night!"
     }
   },
-"bottommenu": {
-  "title": "Hongdae Pocha",
-  "location": "5 Central Park Ave, Chippendale NSW 2008",
-  "number": "451 829 778",
-  "instagram": "@hongdaepocha_sydney",
-  "email": "manager.hongdaepocha@gmail.com",
-  "group": "Contact Anece So, CBO at Vuza Hospitality Group"
-}
+  "bottommenu": {
+    "title": "Hongdae Pocha",
+    "location": "5 Central Park Ave, Chippendale NSW 2008",
+    "number": "451 829 778",
+    "instagram": "@hongdaepocha_sydney",
+    "email": "manager.hongdaepocha@gmail.com",
+    "group": "Contact Anece So, CBO at Vuza Hospitality Group"
+  }
 }
