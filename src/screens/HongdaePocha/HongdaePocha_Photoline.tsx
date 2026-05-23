@@ -32,6 +32,18 @@ const Photoline: React.FC = () => {
           <br />
           Hongdae Pocha
         </OverlayText>
+        <BadgeWrapper
+          href="https://www.opentable.com.au/restaurant/profile/298547/reserve?rid=298547&restref=298547"
+          target="_blank"
+          rel="noopener"
+        >
+          <img
+            height="100px"
+            width="100px"
+            src="https://www.opentable.com.au/restaurant-solutions/badge/ot/DC-2026.png"
+            alt="Book on OpenTable"
+          />
+        </BadgeWrapper>
         <DotsWrapper>
           {images.map((_, idx) => (
             <Dot key={idx} active={currentIndex === idx} />
@@ -51,6 +63,11 @@ const Container = styled.div`
   padding-top: 56.25%;
   position: relative;
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    padding-top: 75%;
+    height: auto;
+  }
 `;
 
 const ImageOverlayContainer = styled.div`
@@ -73,7 +90,7 @@ const StyledImage = styled.img`
   width: 100%;
   height: 100%;
   flex-shrink: 0;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
   display: block;
 `;
@@ -103,8 +120,31 @@ const OverlayText = styled.div`
 
   @media (max-width: 768px) {
     font-size: 30px;
-    top: 10vh;
+    top: 80px;
     left: 5vw;
+  }
+`;
+
+const BadgeWrapper = styled.a`
+  position: absolute;
+  top: calc(15vh + 220px);
+  left: 5vw;
+  z-index: 2;
+  display: inline-flex;
+  opacity: 0.92;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+
+  @media (max-width: 768px) {
+    top: 175px;
+    img {
+      height: 65px;
+      width: 65px;
+    }
   }
 `;
 

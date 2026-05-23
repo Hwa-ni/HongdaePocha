@@ -172,10 +172,12 @@ const NavBar = styled.nav<{ isExpanded: boolean }>`
   justify-content: flex-start;
   transition: height 0.3s ease;
   z-index: 2001;
+  padding: 0 16px;
+  box-sizing: border-box;
 
   @media (max-width: 768px) {
     height: 60px;
-    justify-content: space-between;
+    padding: 0 12px;
   }
 `;
 
@@ -204,7 +206,8 @@ const MobileMenuButton = styled.div<{ isScrolledPastPhotoline: boolean }>`
     display: block;
     font-size: 24px;
     cursor: pointer;
-    padding-right: 20px;
+    margin-left: auto;
+    padding-right: 4px;
     color: ${(props) =>
       props.isScrolledPastPhotoline ? "#e0e0e0" : "#ffffff"};
   }
