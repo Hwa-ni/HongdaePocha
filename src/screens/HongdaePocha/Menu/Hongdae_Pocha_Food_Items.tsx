@@ -51,6 +51,25 @@ const MenuListPage = () => {
     return matchesCategory && matchesSubCategory && matchesSearch;
   });
 
+  // 서브카테고리별로 그룹핑 (순서 유지)
+  const groupedMenu = (() => {
+    const groups: { subcategory: string | null; items: typeof filteredMenu }[] = [];
+    const seen = new Map<string, number>();
+    filteredMenu.forEach((item) => {
+      const key = item.subcategory ?? item.category ?? "";
+      if (seen.has(key)) {
+        groups[seen.get(key)!].items.push(item);
+      } else {
+        seen.set(key, groups.length);
+        groups.push({ subcategory: item.subcategory ?? null, items: [item] });
+      }
+    });
+    return groups;
+  })();
+
+  // 소제목이 필요한지 여부: 그룹이 2개 이상이거나 서브카테고리가 존재할 때
+  const showSectionHeaders = groupedMenu.length > 1 || (groupedMenu.length === 1 && groupedMenu[0].subcategory !== null);
+
   const renderSpiceLevel = (level?: number) => {
     if (!level || level <= 0) return null;
     return "●".repeat(level);
@@ -176,34 +195,45 @@ const MenuListPage = () => {
               {filteredMenu.length === 0 ? (
                 <EmptyMessage>No items found.</EmptyMessage>
               ) : (
-                filteredMenu.map((item) => (
-                  <MenuCard key={item.id}>
-                    {item.isNew && <NewBadge>NEW</NewBadge>}
-                    {item.isHot && (
-                      <HotBadge isNewVisible={item.isNew}>HOT</HotBadge>
+                groupedMenu.map((group, groupIdx) => (
+                  <React.Fragment key={groupIdx}>
+                    {showSectionHeaders && group.subcategory && (
+                      <SectionHeader>
+                        <SectionHeaderLine />
+                        <SectionHeaderText>{group.subcategory}</SectionHeaderText>
+                        <SectionHeaderLine />
+                      </SectionHeader>
                     )}
-                    {item.isIce && (
-                      <IceBadge
-                        isNewVisible={item.isNew}
-                        isHotVisible={item.isHot}
-                      >
-                        ICE
-                      </IceBadge>
-                    )}
-                    {item.spiceLevel && item.spiceLevel > 0 && (
-                      <SpiceBadge
-                        isNewVisible={item.isNew}
-                        isHotVisible={item.isHot}
-                        isIceVisible={item.isIce}
-                      >
-                        {renderSpiceLevel(item.spiceLevel)}
-                      </SpiceBadge>
-                    )}
-                    <MenuImageContainer>
-                      {item.image && <MenuImage src={item.image} alt={item.name} />}
-                    </MenuImageContainer>
-                    <MenuName>{item.name}</MenuName>
-                  </MenuCard>
+                    {group.items.map((item) => (
+                      <MenuCard key={item.id}>
+                        {item.isNew && <NewBadge>NEW</NewBadge>}
+                        {item.isHot && (
+                          <HotBadge isNewVisible={item.isNew}>HOT</HotBadge>
+                        )}
+                        {item.isIce && (
+                          <IceBadge
+                            isNewVisible={item.isNew}
+                            isHotVisible={item.isHot}
+                          >
+                            ICE
+                          </IceBadge>
+                        )}
+                        {item.spiceLevel && item.spiceLevel > 0 && (
+                          <SpiceBadge
+                            isNewVisible={item.isNew}
+                            isHotVisible={item.isHot}
+                            isIceVisible={item.isIce}
+                          >
+                            {renderSpiceLevel(item.spiceLevel)}
+                          </SpiceBadge>
+                        )}
+                        <MenuImageContainer>
+                          {item.image && <MenuImage src={item.image} alt={item.name} />}
+                        </MenuImageContainer>
+                        <MenuName>{item.name}</MenuName>
+                      </MenuCard>
+                    ))}
+                  </React.Fragment>
                 ))
               )}
             </MenuGrid>
@@ -518,6 +548,31 @@ const EmptyMessage = styled.div`
   color: #666;
   font-size: 16px;
   padding: 60px 0;
+`;
+
+const SectionHeader = styled.div`
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 0 4px 0;
+  margin-top: 8px;
+`;
+
+const SectionHeaderLine = styled.div`
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #444, transparent);
+`;
+
+const SectionHeaderText = styled.span`
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #9c1f23;
+  white-space: nowrap;
+  padding: 0 8px;
 `;
 
 const MenuCard = styled.div`
