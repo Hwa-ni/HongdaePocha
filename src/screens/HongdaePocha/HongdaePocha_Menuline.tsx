@@ -152,81 +152,33 @@ const HongdaePocha_Menuline: React.FC<MenulineProps> = ({
           </HeaderBar>
         )}
 
-        {/* 벤토 그리드 카드 영역 */}
+        {/* 벤토 그리드 카드 영역 대신 3열 그리드 사용 */}
         <GridContainer {...handlers} $isTransitioning={isTransitioning}>
-          {/* Top Row (60% / 40% 비율) */}
-          <TopRow>
-            {item0 && (
-              <CardLarge>
-                <CardImageContainer>
-                  <CardImg src={item0.image} alt={item0.name} />
-                  <ImageGradient />
-                </CardImageContainer>
-                <CardContent>
-                  <MetaRow>
-                    <ChefBadge>CHEF'S CHOICE</ChefBadge>
-                    <PriceText>{item0.price || "$48"}</PriceText>
-                  </MetaRow>
-                  <CardTitle>{item0.name}</CardTitle>
-                  <CardDesc>
-                    {item0.description ||
-                      "Highly marbled Japanese style cut. Exceptionally tender with a melt-in-your-mouth texture."}
-                  </CardDesc>
-                </CardContent>
-              </CardLarge>
-            )}
-
-            {item1 && (
-              <CardMedium>
-                <CardImageContainer>
-                  <CardImg src={item1.image} alt={item1.name} />
-                  <ImageGradient />
-                </CardImageContainer>
-                <CardContent>
-                  <MetaRow>
-                    <PriceText>{item1.price || "$26"}</PriceText>
-                  </MetaRow>
-                  <CardTitle>{item1.name}</CardTitle>
-                  <CardDesc>
-                    {item1.description ||
-                      "Signature double-marinated dish prepared with authentic spices and rich flavor."}
-                  </CardDesc>
-                </CardContent>
-              </CardMedium>
-            )}
-          </TopRow>
-
-          {/* Bottom Row (100% 파노라마 카드) */}
-          {item2 && (
-            <BottomRow>
-              <CardPanoramic>
-                <CardImageContainer $panoramic>
-                  <CardImg src={item2.image} alt={item2.name} />
-                  <ImageGradient />
-                </CardImageContainer>
-                <CardContent $panoramic>
-                  <BottomLeftContent>
-                    <MetaRow>
-                      <PriceText>{item2.price || "$34"}</PriceText>
-                    </MetaRow>
-                    <CardTitle $large>{item2.name}</CardTitle>
-                    <CardDesc $large>
-                      {item2.description ||
-                        "Marinated for 48 hours in our secret soy-pear blend. Perfectly balanced sweetness and umami."}
-                    </CardDesc>
-                  </BottomLeftContent>
-                  <BottomRightTags>
-                    <FeatureTag>
-                      <span className="icon">🌱</span> Grass-fed
-                    </FeatureTag>
-                    <FeatureTag>
-                      <span className="icon">🔥</span> Charcoal Grilled
-                    </FeatureTag>
-                  </BottomRightTags>
-                </CardContent>
-              </CardPanoramic>
-            </BottomRow>
-          )}
+          <GridRow>
+            {currentItems.map((item, idx) => (
+              item && (
+                <MenuCard key={item.id || idx}>
+                  <CardImageContainer>
+                    <CardImg src={item.image} alt={item.name} />
+                    <ImageGradient />
+                  </CardImageContainer>
+                  <CardContent>
+                    {item.price && (
+                      <MetaRow>
+                        <PriceText>{item.price}</PriceText>
+                      </MetaRow>
+                    )}
+                    <CardTitle>{item.name}</CardTitle>
+                    {item.description && (
+                      <CardDesc>
+                        {item.description}
+                      </CardDesc>
+                    )}
+                  </CardContent>
+                </MenuCard>
+              )
+            ))}
+          </GridRow>
         </GridContainer>
       </InnerWrapper>
     </SectionContainer>
@@ -378,28 +330,26 @@ const ViewFullMenuLink = styled.button`
 `;
 
 const GridContainer = styled.div<{ $isTransitioning: boolean }>`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
   width: 100%;
   animation: ${({ $isTransitioning }) => ($isTransitioning ? fadeScaleIn : "none")} 0.2s ease-in-out;
 `;
 
-const TopRow = styled.div`
-  display: flex;
+const GridRow = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   width: 100%;
 
   @media (max-width: 850px) {
-    flex-direction: column;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
   }
 `;
 
-const BottomRow = styled.div`
-  width: 100%;
-`;
-
-const BaseCard = styled.div`
+const MenuCard = styled.div`
   background-color: #161616;
   border-radius: 20px;
   border: 1px solid rgba(241, 250, 238, 0.07);
@@ -420,39 +370,11 @@ const BaseCard = styled.div`
   }
 `;
 
-const CardLarge = styled(BaseCard)`
-  flex: 1.45;
-  width: 58%;
-  min-width: 0;
-
-  @media (max-width: 850px) {
-    width: 100%;
-  }
-`;
-
-const CardMedium = styled(BaseCard)`
-  flex: 1;
-  width: 40%;
-  min-width: 0;
-
-  @media (max-width: 850px) {
-    width: 100%;
-  }
-`;
-
-const CardPanoramic = styled(BaseCard)`
-  width: 100%;
-`;
-
-const CardImageContainer = styled.div<{ $panoramic?: boolean }>`
+const CardImageContainer = styled.div`
   position: relative;
   width: 100%;
-  height: ${({ $panoramic }) => ($panoramic ? "280px" : "260px")};
+  aspect-ratio: 3 / 4;
   overflow: hidden;
-
-  @media (max-width: 768px) {
-    height: 220px;
-  }
 `;
 
 const CardImg = styled.img`
@@ -461,7 +383,7 @@ const CardImg = styled.img`
   object-fit: cover;
   transition: transform 0.5s ease;
 
-  ${BaseCard}:hover & {
+  ${MenuCard}:hover & {
     transform: scale(1.04);
   }
 `;
@@ -481,59 +403,26 @@ const ImageGradient = styled.div`
   pointer-events: none;
 `;
 
-const CardContent = styled.div<{ $panoramic?: boolean }>`
-  padding: ${({ $panoramic }) =>
-    $panoramic ? "16px 28px 28px 28px" : "16px 24px 26px 24px"};
+const CardContent = styled.div`
+  padding: 12px 20px 20px 20px;
   display: flex;
-  flex-direction: ${({ $panoramic }) => ($panoramic ? "row" : "column")};
-  justify-content: ${({ $panoramic }) => ($panoramic ? "space-between" : "flex-start")};
-  align-items: ${({ $panoramic }) => ($panoramic ? "flex-end" : "stretch")};
-  flex-wrap: wrap;
-  gap: 20px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 6px;
   margin-top: -24px;
   position: relative;
   z-index: 2;
 
   @media (max-width: 768px) {
-    padding: 16px 20px 22px 20px;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-`;
-
-const BottomLeftContent = styled.div`
-  flex: 1;
-  min-width: 280px;
-`;
-
-const BottomRightTags = styled.div`
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  flex-wrap: wrap;
-
-  @media (max-width: 768px) {
-    margin-top: 8px;
+    padding: 10px 16px 18px 16px;
   }
 `;
 
 const MetaRow = styled.div`
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 6px;
-`;
-
-const ChefBadge = styled.span`
-  background: #E63946;
-  color: #F1FAEE;
-  font-family: var(--font-label);
-  font-size: 11px;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 6px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  margin-bottom: 2px;
 `;
 
 const PriceText = styled.span`
@@ -543,42 +432,24 @@ const PriceText = styled.span`
   color: #D4A373;
 `;
 
-const CardTitle = styled.h3<{ $large?: boolean }>`
+const CardTitle = styled.h3`
   font-family: var(--font-headline);
-  font-size: ${({ $large }) => ($large ? "26px" : "22px")};
+  font-size: 22px;
   font-weight: 700;
   color: #F1FAEE;
-  margin: 4px 0 0 0;
+  margin: 0;
   letter-spacing: -0.3px;
 
   @media (max-width: 768px) {
-    font-size: ${({ $large }) => ($large ? "22px" : "20px")};
+    font-size: 20px;
   }
 `;
 
-const CardDesc = styled.p<{ $large?: boolean }>`
+const CardDesc = styled.p`
   font-family: var(--font-body);
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.5;
   color: rgba(241, 250, 238, 0.75);
-  margin: 6px 0 0 0;
-  max-width: ${({ $large }) => ($large ? "680px" : "100%")};
-`;
-
-const FeatureTag = styled.span`
-  background: rgba(212, 163, 115, 0.1);
-  border: 1px solid rgba(212, 163, 115, 0.25);
-  color: #D4A373;
-  font-family: var(--font-label);
-  font-size: 12px;
-  font-weight: 600;
-  padding: 6px 14px;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-
-  .icon {
-    font-size: 13px;
-  }
+  margin: 4px 0 0 0;
+  width: 100%;
 `;
