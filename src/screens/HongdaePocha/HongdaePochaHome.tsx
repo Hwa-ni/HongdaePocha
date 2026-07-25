@@ -91,7 +91,7 @@ const Home: React.FC = () => {
 
           <HongdaePochaMenuline
             menuList={bbqMenu}
-            title="Signature Cuts"
+            title="Signature Menu"
             subtitle="THE SELECTION"
           />
           <HongdaePochaMenuline
