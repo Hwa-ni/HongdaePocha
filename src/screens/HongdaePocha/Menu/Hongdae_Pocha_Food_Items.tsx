@@ -40,6 +40,8 @@ const MenuListPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredMenu = menuData.filter((item) => {
+    const hasValidImage =
+      item.image && !item.image.toLowerCase().includes("unknown");
     const matchesCategory =
       selectedCategory === lang.itemMenu.all ||
       item.category === selectedCategory;
@@ -48,7 +50,7 @@ const MenuListPage = () => {
     const matchesSearch = item.name
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
-    return matchesCategory && matchesSubCategory && matchesSearch;
+    return hasValidImage && matchesCategory && matchesSubCategory && matchesSearch;
   });
 
   // 서브카테고리별로 그룹핑 (순서 유지)

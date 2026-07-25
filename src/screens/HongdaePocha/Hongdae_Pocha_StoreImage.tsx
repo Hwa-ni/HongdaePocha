@@ -15,20 +15,21 @@ interface IndicatorProps {
 }
 
 const MoreButton = styled.button`
-  background: #9c1f24; /* 버튼 색상을 붉은색으로 변경 */
-  color: white;
+  background: #E63946; /* Sizzle primary red */
+  color: #F1FAEE;
+  font-family: var(--font-body);
   padding: 12px 24px;
   border-radius: 24px;
   border: none;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px rgba(156, 31, 36, 0.25); /* 그림자 색상 조정 */
+  box-shadow: 0 4px 12px rgba(230, 57, 70, 0.25);
 
   &:hover {
-    background: #6b1519; /* 호버 색상 조정 */
+    background: #f24b58;
     transform: scale(1.05);
-    box-shadow: 0 8px 20px rgba(156, 31, 36, 0.4);
+    box-shadow: 0 8px 20px rgba(230, 57, 70, 0.4);
   }
 
   // 모바일에서 너비 조정
@@ -44,25 +45,28 @@ const SectionContainer = styled.div`
   justify-content: center;
   align-items: center;
   padding: 2rem 1rem;
-  background: #1a1a1a; /* 배경색을 어둡게 변경 */
+  background: #1A1A1A; /* 다크 테마 배경 */
   min-height: 80vh;
 `;
 
 const ImageCard = styled.div`
   width: 80vw;
-  background: #242424; /* 카드 배경색을 어둡게 변경 */
+  background: #161616; /* 카드 배경 */
+  border: 1px solid rgba(241, 250, 238, 0.07);
   border-radius: 24px;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4); /* 그림자 진하게 변경 */
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
   overflow: hidden;
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover {
     transform: scale(1.02);
-    box-shadow: 0 35px 70px rgba(0, 0, 0, 0.5); /* 호버 시 그림자 진하게 변경 */
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
   }
 
+  // 모바일에서 너비 확장
   @media (max-width: 768px) {
-    width: 95vw;
+    width: 92vw;
+    border-radius: 16px;
   }
 `;
 
@@ -71,7 +75,7 @@ const ImageWrapper = styled.div`
   width: 100%;
   height: 400px;
   overflow: hidden;
-  touch-action: pan-y; /* 터치 이벤트가 세로 스크롤을 막지 않도록 설정 */
+  touch-action: pan-y;
 
   @media (min-width: 768px) {
     height: 500px;
@@ -100,33 +104,30 @@ const NavButton = styled.button<NavButtonProps>`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  ${(props) => (props.direction === "left" ? "left: 24px;" : "right: 24px;")}
-  background: rgba(255, 255, 255, 0.1); /* 배경색을 반투명하게 변경 */
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  ${(props) => (props.direction === "left" ? "left: 16px;" : "right: 16px;")}
+  background: rgba(26, 26, 26, 0.6);
+  color: #F1FAEE;
+  border: 1px solid rgba(241, 250, 238, 0.15);
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  width: 56px;
-  height: 56px;
-  cursor: pointer;
-  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #e0e0e0; /* 글씨색을 밝게 변경 */
-  font-size: 1.5rem;
-  font-weight: bold;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(4px);
 
   &:hover {
-    background: rgba(255, 255, 255, 0.2); /* 호버 색상 변경 */
+    background: #E63946;
+    border-color: #E63946;
     transform: translateY(-50%) scale(1.1);
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
   }
 
-  // 모바일 환경일 때 화살표 숨기기
   @media (max-width: 768px) {
-    display: none;
+    width: 36px;
+    height: 36px;
+    ${(props) => (props.direction === "left" ? "left: 8px;" : "right: 8px;")}
   }
 `;
 
@@ -136,7 +137,8 @@ const IndicatorsContainer = styled.div`
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 12px;
+  gap: 8px;
+  z-index: 10;
 `;
 
 const Indicator = styled.button<IndicatorProps>`
@@ -146,16 +148,16 @@ const Indicator = styled.button<IndicatorProps>`
   border: none;
   cursor: pointer;
   background: ${(props) =>
-    props.active ? "#9c1f24" : "rgba(255, 255, 255, 0.4)"}; /* 색상 변경 */
+    props.active ? "#E63946" : "rgba(241, 250, 238, 0.4)"};
   transform: ${(props) => (props.active ? "scale(1.25)" : "scale(1)")};
   box-shadow: ${(props) =>
     props.active
-      ? "0 4px 12px rgba(156, 31, 36, 0.5), 0 0 0 2px rgba(156, 31, 36, 0.5)"
-      : "none"}; /* 그림자 색상 조정 */
+      ? "0 4px 12px rgba(230, 57, 70, 0.5), 0 0 0 2px rgba(230, 57, 70, 0.5)"
+      : "none"};
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover {
-    background: #9c1f24; /* 호버 색상 변경 */
+    background: #E63946;
     transform: scale(1.1);
   }
 `;
@@ -172,12 +174,14 @@ const TitleOverlay = styled.div`
     transparent 100%
   );
   padding: 32px;
-  color: white;
+  color: #F1FAEE;
 `;
 
 const Title = styled.h3`
+  font-family: var(--font-headline);
   font-size: 2rem;
   font-weight: 700;
+  color: #F1FAEE;
   margin-bottom: 8px;
   line-height: 1.2;
 
@@ -187,15 +191,16 @@ const Title = styled.h3`
 `;
 
 const Description = styled.p`
+  font-family: var(--font-body);
   font-size: 1rem;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(241, 250, 238, 0.85);
   line-height: 1.6;
 `;
 
 const BottomInfoBar = styled.div`
-  background: #1a1a1a; /* 배경색을 어둡게 변경 */
+  background: #161616;
   padding: 24px;
-  border-top: 1px solid #333; /* 경계선 색상 조정 */
+  border-top: 1px solid rgba(241, 250, 238, 0.08);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -223,12 +228,13 @@ const InfoSection = styled.div`
 const IconContainer = styled.div`
   width: 48px;
   height: 48px;
-  background: #333; /* 배경색을 어둡게 변경 */
+  background: #1F1F1F;
+  border: 1px solid rgba(212, 163, 115, 0.2);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #e0e0e0; /* 아이콘 색상을 밝게 변경 */
+  color: #D4A373;
 `;
 
 const InfoText = styled.div`

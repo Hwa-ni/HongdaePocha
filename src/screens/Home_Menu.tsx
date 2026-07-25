@@ -4,7 +4,7 @@ import Popup from "./HongdaePocha/popup";
 
 // 뷰포트 너비를 기준으로 모든 단위를 유동적으로 변경
 const Wrapper = styled.div`
-  background-color: #1a1a1a;
+  background-color: #1A1A1A;
   width: 100vw;
 `;
 const Container = styled.div`
@@ -35,7 +35,8 @@ const Container = styled.div`
 const Card = styled.div`
   border-radius: 1.5vw;
   padding: 3vw;
-  color: white;
+  color: #F1FAEE;
+  font-family: var(--font-body);
   position: relative;
   overflow: hidden;
   min-height: 12vw;
@@ -54,12 +55,12 @@ const Card = styled.div`
 
 const Card1 = styled(Card)`
   grid-area: card1;
-  background: linear-gradient(135deg, #9c1f24, #6b1519);
+  background: linear-gradient(135deg, #E63946, #9c1f24);
 `;
 
 const Card2 = styled(Card)`
   grid-area: card2;
-  background: linear-gradient(135deg, #ff8500, #ff6b00);
+  background: linear-gradient(135deg, #D4A373, #a87e52);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -81,11 +82,11 @@ const Card2ImageArea = styled.div`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(241, 250, 238, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(241, 250, 238, 0.7);
   font-size: 1vw;
   border-radius: 1.5vw 0 0 1.5vw;
 
@@ -113,9 +114,10 @@ const Card2Content = styled.div`
 `;
 
 const CardButton = styled.a`
-  background: rgba(255, 255, 255, 0.2);
-  border: 2px solid rgba(255, 255, 255, 0.5);
-  color: white;
+  background: rgba(241, 250, 238, 0.2);
+  border: 2px solid rgba(241, 250, 238, 0.5);
+  color: #F1FAEE;
+  font-family: var(--font-body);
   padding: 0.8vw 1.5vw;
   border-radius: 2vw;
   font-size: 1vw;
@@ -127,8 +129,9 @@ const CardButton = styled.a`
   text-decoration: none;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.3);
-    border-color: rgba(255, 255, 255, 0.8);
+    background: #F1FAEE;
+    color: #1A1A1A;
+    border-color: #F1FAEE;
   }
 
   @media (max-width: 768px) {
@@ -140,6 +143,7 @@ const CardButton = styled.a`
 `;
 
 const CardTitle = styled.div`
+  font-family: var(--font-headline);
   font-size: 2vw;
   font-weight: bold;
   line-height: 1.3;

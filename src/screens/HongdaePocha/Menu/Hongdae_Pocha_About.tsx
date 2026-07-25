@@ -154,13 +154,13 @@ const HeroContent = styled.div`
   position: relative;
   z-index: 10;
   max-width: 800px;
-  padding: 40px;
+  padding: 130px 40px 40px 40px;
   text-align: left;
   color: white;
   margin-left: 0;
 
   @media (max-width: 768px) {
-    padding: 20px;
+    padding: 100px 20px 20px 20px;
   }
 `;
 

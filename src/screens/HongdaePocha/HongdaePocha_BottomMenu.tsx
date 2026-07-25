@@ -36,7 +36,6 @@ const BottomMenu = () => {
         <Line>
           <a href={`mailto:${en.bottommenu?.email}`}>{en.bottommenu?.email}</a>
         </Line>
-        <Line>{en.bottommenu?.group}</Line>
       </TextSection>
       <LogoSection>
         <img
@@ -58,7 +57,7 @@ const Wrapper = styled.footer`
   justify-content: space-between;
   align-items: center;
   padding: 30px 60px;
-  background-color: #1a1a1a; /* 배경색을 더 어둡게 조정 */
+  background-color: #1A1A1A;
 
   @media (max-width: 768px) {
     justify-content: center;
@@ -74,15 +73,16 @@ const TextSection = styled.div`
 
 const Line = styled.p`
   margin: 4px 0;
+  font-family: var(--font-body);
   font-size: 14px;
-  color: #be262b; /* 본문 글자색을 밝은 회색으로 변경 */
+  color: #D4A373;
 
   strong {
-    color: #be262b; /* 제목 글자색을 붉은색으로 설정 */
+    color: #E63946;
   }
 
   a {
-    color: #be262b; /* 링크 글자색을 붉은색으로 설정 */
+    color: #E63946;
     text-decoration: none;
     font-weight: normal;
     transition: font-weight 0.3s ease, opacity 0.3s ease;

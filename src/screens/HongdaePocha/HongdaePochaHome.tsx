@@ -11,18 +11,19 @@ import StoreImageSection from "./Hongdae_Pocha_StoreImage";
 
 // 기존 Title 컴포넌트
 const Title = styled.h2`
+  font-family: var(--font-headline);
   font-size: 2.5rem;
   font-weight: bold;
   text-align: center;
   margin-bottom: 50px;
-  color: #bf252a; /* 다크모드 글씨색 */
+  color: #E63946;
 `;
 
 // Wrapper 컴포넌트 수정
 const Wrapper = styled.div`
-  background-color: #1a1a1a; /* 다크모드 배경색 */
-  width: 100%; /* 너비를 100%로 변경 */
-  overflow-x: hidden; /* 수평 스크롤 숨김 */
+  background-color: #1A1A1A;
+  width: 100%;
+  overflow-x: hidden;
 `;
 
 // 이미지와 오버레이, 텍스트를 담을 새로운 컨테이너 컴포넌트
@@ -60,8 +61,18 @@ const ImageContainer = styled.div`
 `;
 
 const Home: React.FC = () => {
-  const bbqMenu = menuData.filter((item) => item.category === "BBQ / Grill");
-  const drink = menuData.filter((item) => item.category === "DRINKS");
+  const bbqMenu = menuData.filter(
+    (item) =>
+      item.category === "BBQ / Grill" &&
+      item.image &&
+      !item.image.toLowerCase().includes("unknown")
+  );
+  const drink = menuData.filter(
+    (item) =>
+      item.category === "DRINKS" &&
+      item.image &&
+      !item.image.toLowerCase().includes("unknown")
+  );
   return (
     <div>
       <TransitionContainer>
@@ -78,10 +89,16 @@ const Home: React.FC = () => {
         </ImageContainer>
          */}
 
-          <Title>BBQ / Grill</Title>
-          <HongdaePochaMenuline menuList={bbqMenu} />
-          <Title>Drink Menu</Title>
-          <HongdaePochaMenuline menuList={drink} />
+          <HongdaePochaMenuline
+            menuList={bbqMenu}
+            title="Signature Cuts"
+            subtitle="THE SELECTION"
+          />
+          <HongdaePochaMenuline
+            menuList={drink}
+            title="Drink Specialties"
+            subtitle="THE REFRESHMENT"
+          />
           <StoreImageSection />
           <HomeMenuBenner />
           <BottomMenu />
