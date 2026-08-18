@@ -1,5 +1,4 @@
 import React from "react";
-import Topmenu from "./HongdaePocha_Topmenu";
 import Photoline from "./HongdaePocha_Photoline";
 import BottomMenu from "./HongdaePocha_BottomMenu";
 import { TransitionContainer } from "./animation/TransitionContainer";
@@ -77,7 +76,6 @@ const Home: React.FC = () => {
     <div>
       <TransitionContainer>
         <Wrapper>
-          <Topmenu />
           <Photoline />
           {/* 여기에 새로 추가된 이미지 컨테이너
         <ImageContainer>

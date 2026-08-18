@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Topmenu from "../HongdaePocha_Topmenu";
 import lang from "../../../language/Eng_Aust.json";
 import { menuData } from "./Hongdae_Pocha_Menu_list";
 import BottomMenu from "../HongdaePocha_BottomMenu";
@@ -80,7 +79,6 @@ const MenuListPage = () => {
   return (
     <TransitionContainer>
       <PageContainer>
-        <Topmenu />
         <ContentContainer>
           <SidebarContainer>
             <SearchSection>

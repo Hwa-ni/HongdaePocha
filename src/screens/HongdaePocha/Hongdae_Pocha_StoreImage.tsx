@@ -1,355 +1,34 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
-// 타입 정의
-interface CarouselImageProps {
-  currentImageIndex: number;
-}
+const STORE_NAME = "Hongdae Pocha BBQ Sydney";
+const STORE_ADDRESS = "5 Central Park Ave, Chippendale NSW 2008";
+const MAP_EMBED_URL =
+  "https://www.google.com/maps?q=Hongdae+Pocha+BBQ+Sydney%2C+5+Central+Park+Ave%2C+Chippendale+NSW+2008&output=embed";
+const DIRECTIONS_URL =
+  "https://www.google.com/maps/dir/?api=1&destination=Hongdae+Pocha+BBQ+Sydney%2C+5+Central+Park+Ave%2C+Chippendale+NSW+2008&travelmode=driving&dir_action=navigate";
 
-interface NavButtonProps {
-  direction: "left" | "right";
-}
-
-interface IndicatorProps {
-  active: boolean;
-}
-
-const MoreButton = styled.button`
-  background: #E63946; /* Sizzle primary red */
-  color: #F1FAEE;
-  font-family: var(--font-body);
-  padding: 12px 24px;
-  border-radius: 24px;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px rgba(230, 57, 70, 0.25);
-
-  &:hover {
-    background: #f24b58;
-    transform: scale(1.05);
-    box-shadow: 0 8px 20px rgba(230, 57, 70, 0.4);
-  }
-
-  // 모바일에서 너비 조정
-  @media (max-width: 768px) {
-    width: 90%; // 버튼 너비를 90%로 설정하여 가독성 높임
-    max-width: 300px; // 최대 너비 설정
-  }
-`;
-
-// 스타일 컴포넌트 정의
-const SectionContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem 1rem;
-  background: #1A1A1A; /* 다크 테마 배경 */
-  min-height: 80vh;
-`;
-
-const ImageCard = styled.div`
-  width: 80vw;
-  background: #161616; /* 카드 배경 */
-  border: 1px solid rgba(241, 250, 238, 0.07);
-  border-radius: 24px;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-  overflow: hidden;
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-
-  &:hover {
-    transform: scale(1.02);
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
-  }
-
-  // 모바일에서 너비 확장
-  @media (max-width: 768px) {
-    width: 92vw;
-    border-radius: 16px;
-  }
-`;
-
-const ImageWrapper = styled.div`
-  position: relative;
-  width: 100%;
-  height: 400px;
-  overflow: hidden;
-  touch-action: pan-y;
-
-  @media (min-width: 768px) {
-    height: 500px;
-  }
-`;
-
-const ImageContainer = styled.div<CarouselImageProps>`
-  display: flex;
-  height: 100%;
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  transform: translateX(${(props) => -props.currentImageIndex * 100}%);
-`;
-
-const ImageSlide = styled.div`
-  min-width: 100%;
-  height: 100%;
-`;
-
-const CarouselImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
-
-const NavButton = styled.button<NavButtonProps>`
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  ${(props) => (props.direction === "left" ? "left: 16px;" : "right: 16px;")}
-  background: rgba(26, 26, 26, 0.6);
-  color: #F1FAEE;
-  border: 1px solid rgba(241, 250, 238, 0.15);
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  backdrop-filter: blur(4px);
-
-  &:hover {
-    background: #E63946;
-    border-color: #E63946;
-    transform: translateY(-50%) scale(1.1);
-  }
-
-  @media (max-width: 768px) {
-    width: 36px;
-    height: 36px;
-    ${(props) => (props.direction === "left" ? "left: 8px;" : "right: 8px;")}
-  }
-`;
-
-const IndicatorsContainer = styled.div`
-  position: absolute;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 8px;
-  z-index: 10;
-`;
-
-const Indicator = styled.button<IndicatorProps>`
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  background: ${(props) =>
-    props.active ? "#E63946" : "rgba(241, 250, 238, 0.4)"};
-  transform: ${(props) => (props.active ? "scale(1.25)" : "scale(1)")};
-  box-shadow: ${(props) =>
-    props.active
-      ? "0 4px 12px rgba(230, 57, 70, 0.5), 0 0 0 2px rgba(230, 57, 70, 0.5)"
-      : "none"};
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-  &:hover {
-    background: #E63946;
-    transform: scale(1.1);
-  }
-`;
-
-const TitleOverlay = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.8) 0%,
-    rgba(0, 0, 0, 0.4) 50%,
-    transparent 100%
-  );
-  padding: 32px;
-  color: #F1FAEE;
-`;
-
-const Title = styled.h3`
-  font-family: var(--font-headline);
-  font-size: 2rem;
-  font-weight: 700;
-  color: #F1FAEE;
-  margin-bottom: 8px;
-  line-height: 1.2;
-
-  @media (min-width: 768px) {
-    font-size: 2.5rem;
-  }
-`;
-
-const Description = styled.p`
-  font-family: var(--font-body);
-  font-size: 1rem;
-  color: rgba(241, 250, 238, 0.85);
-  line-height: 1.6;
-`;
-
-const BottomInfoBar = styled.div`
-  background: #161616;
-  padding: 24px;
-  border-top: 1px solid rgba(241, 250, 238, 0.08);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  // 모바일 환경일 때 레이아웃 변경
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-  }
-`;
-
-const InfoSection = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 16px;
-
-  // 모바일에서 가운데 정렬을 위해
-  @media (max-width: 768px) {
-    justify-content: center;
-    width: 100%;
-  }
-`;
-
-const IconContainer = styled.div`
-  width: 48px;
-  height: 48px;
-  background: #1F1F1F;
-  border: 1px solid rgba(212, 163, 115, 0.2);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #D4A373;
-`;
-
-const InfoText = styled.div`
-  h4 {
-    font-size: 0.875rem;
-    color: #b0b0b0; /* 글씨색을 밝은 회색으로 변경 */
-    margin-bottom: 2px;
-  }
-
-  p {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: #e0e0e0; /* 글씨색을 밝게 변경 */
-  }
-`;
-
-// React 컴포넌트
 const StoreImageSection: React.FC = () => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [touchStartX, setTouchStartX] = useState(0);
-
-  // 이미지 경로 배열
-  const storeImages = [
-    "assets/HongdaePocha/HongdaePocha_store_image/insert1.jpg",
-    "assets/HongdaePocha/HongdaePocha_store_image/insert2.jpg",
-    "assets/HongdaePocha/HongdaePocha_store_image/insert3.jpg",
-    "assets/HongdaePocha/HongdaePocha_store_image/insert4.jpg",
-    "assets/HongdaePocha/HongdaePocha_store_image/insert5.jpg",
-    "assets/HongdaePocha/HongdaePocha_store_image/insert6.jpg",
-    "assets/HongdaePocha/HongdaePocha_store_image/insert7.jpg",
-    "assets/HongdaePocha/HongdaePocha_store_image/insert8.jpg",
-    "assets/HongdaePocha/HongdaePocha_store_image/insert9.jpg",
-    "assets/HongdaePocha/HongdaePocha_store_image/insert10.jpg",
-  ];
-
-  const handleNext = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % storeImages.length);
-  };
-
-  const handlePrev = () => {
-    setCurrentImageIndex(
-      (prevIndex) => (prevIndex - 1 + storeImages.length) % storeImages.length
-    );
-  };
-
-  // 터치 시작 이벤트 핸들러
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStartX(e.touches[0].clientX);
-  };
-
-  // 터치 종료 이벤트 핸들러
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    const touchEndX = e.changedTouches[0].clientX;
-    const diff = touchStartX - touchEndX;
-
-    // 스와이프 민감도 설정 (30px)
-    if (Math.abs(diff) > 30) {
-      if (diff > 0) {
-        // 오른쪽에서 왼쪽으로 스와이프 (다음 이미지)
-        handleNext();
-      } else {
-        // 왼쪽에서 오른쪽으로 스와이프 (이전 이미지)
-        handlePrev();
-      }
-    }
-  };
-
-  const handleMoreButtonClick = () => {
-    // 여기에 이동할 URL을 넣어주세요.
-    window.location.href = "/about";
-  };
-
   return (
-    <SectionContainer>
-      <ImageCard>
-        <ImageWrapper
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-        >
-          <ImageContainer currentImageIndex={currentImageIndex}>
-            {storeImages.map((image, index) => (
-              <ImageSlide key={index}>
-                <CarouselImage src={image} alt={`가게 이미지 ${index + 1}`} />
-              </ImageSlide>
-            ))}
-          </ImageContainer>
-
-          <NavButton direction="left" onClick={handlePrev}>
-            ‹
-          </NavButton>
-          <NavButton direction="right" onClick={handleNext}>
-            ›
-          </NavButton>
-
-          <IndicatorsContainer>
-            {storeImages.map((_, index) => (
-              <Indicator
-                key={index}
-                active={index === currentImageIndex}
-                onClick={() => setCurrentImageIndex(index)}
-              />
-            ))}
-          </IndicatorsContainer>
-
-          <TitleOverlay>
-            <Title>Korean Pocha Interior & Vibe</Title>
-            <Description>
-              A special place to enjoy Korean alcohol, food, and Korean BBQ
-            </Description>
-          </TitleOverlay>
-        </ImageWrapper>
+    <SectionContainer id="location">
+      <MapCard>
+        <MapWrapper>
+          <MapFrame
+            src={MAP_EMBED_URL}
+            title={`${STORE_NAME} location on Google Maps`}
+            loading="lazy"
+            allowFullScreen
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+          <MapLabel>
+            <Title>Find Hongdae Pocha</Title>
+            <Description>{STORE_ADDRESS}</Description>
+          </MapLabel>
+        </MapWrapper>
 
         <BottomInfoBar>
           <InfoSection>
-            <IconContainer>
+            <IconContainer aria-hidden="true">
               <svg
                 width="24"
                 height="24"
@@ -361,24 +40,199 @@ const StoreImageSection: React.FC = () => {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  d="M12 21s7-5.1 7-12a7 7 0 10-14 0c0 6.9 7 12 7 12z"
                 />
+                <circle cx="12" cy="9" r="2.5" strokeWidth={2} />
               </svg>
             </IconContainer>
             <InfoText>
-              <h4>Total of {storeImages.length} photos</h4>
-              <p>
-                {currentImageIndex + 1} / {storeImages.length}
-              </p>
+              <h4>{STORE_NAME}</h4>
+              <p>{STORE_ADDRESS}</p>
             </InfoText>
           </InfoSection>
-          <MoreButton onClick={handleMoreButtonClick}>
-            About Hongdae Pocha
-          </MoreButton>
+
+          <DirectionsButton
+            href={DIRECTIONS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Get Directions on Google Maps
+          </DirectionsButton>
         </BottomInfoBar>
-      </ImageCard>
+      </MapCard>
     </SectionContainer>
   );
 };
 
 export default StoreImageSection;
+
+const SectionContainer = styled.section`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1rem;
+  background: #1a1a1a;
+  min-height: 80vh;
+  scroll-margin-top: 88px;
+`;
+
+const MapCard = styled.div`
+  width: 80vw;
+  background: #161616;
+  border: 1px solid rgba(241, 250, 238, 0.07);
+  border-radius: 24px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+  }
+
+  @media (max-width: 768px) {
+    width: 92vw;
+    border-radius: 16px;
+  }
+`;
+
+const MapWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  background: #242424;
+
+  @media (min-width: 768px) {
+    height: 500px;
+  }
+`;
+
+const MapFrame = styled.iframe`
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
+`;
+
+const MapLabel = styled.div`
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  max-width: calc(100% - 40px);
+  padding: 14px 18px;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 16px;
+  background: rgba(22, 22, 22, 0.82);
+  color: #f1faee;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.36);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  pointer-events: none;
+`;
+
+const Title = styled.h3`
+  margin: 0 0 4px;
+  color: #f1faee;
+  font-family: var(--font-headline);
+  font-size: clamp(1.25rem, 3vw, 2rem);
+  font-weight: 700;
+  line-height: 1.2;
+`;
+
+const Description = styled.p`
+  margin: 0;
+  color: rgba(241, 250, 238, 0.82);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  line-height: 1.45;
+`;
+
+const BottomInfoBar = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px;
+  background: #161616;
+  border-top: 1px solid rgba(241, 250, 238, 0.08);
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+  }
+`;
+
+const InfoSection = styled.div`
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+`;
+
+const IconContainer = styled.div`
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #d4a373;
+  background: #1f1f1f;
+  border: 1px solid rgba(212, 163, 115, 0.2);
+  border-radius: 50%;
+`;
+
+const InfoText = styled.div`
+  min-width: 0;
+
+  h4 {
+    margin: 0 0 4px;
+    color: #b0b0b0;
+    font-size: 0.875rem;
+  }
+
+  p {
+    margin: 0;
+    color: #e0e0e0;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+`;
+
+const DirectionsButton = styled.a`
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 24px;
+  box-sizing: border-box;
+  border-radius: 24px;
+  background: #e63946;
+  color: #f1faee;
+  font-family: var(--font-body);
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(230, 57, 70, 0.25);
+  transition: transform 0.2s ease, background-color 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:hover {
+    background: #f24b58;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(230, 57, 70, 0.4);
+  }
+
+  &:focus-visible {
+    outline: 2px solid #f1faee;
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`;

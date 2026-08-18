@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import Topmenu from "../HongdaePocha_Topmenu";
 import BottomMenu from "../HongdaePocha_BottomMenu";
 import raw from "../../../language/Eng_Aust.json";
 import { TransitionContainer } from "../animation/TransitionContainer";
@@ -26,8 +25,6 @@ const Buttered_About = () => {
   return (
     <TransitionContainer>
       <Container>
-        <Topmenu />
-
         {/* Combined Story Section with shared background image */}
         <CombinedStorySection>
           <HeroImage>

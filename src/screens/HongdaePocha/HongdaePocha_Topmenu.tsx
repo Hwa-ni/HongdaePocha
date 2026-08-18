@@ -1,53 +1,74 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
+import {
+  CircleUserRound,
+  Home,
+  MapPin,
+  UtensilsCrossed,
+} from "lucide-react";
 import en from "../../language/Eng_Aust.json";
 
 const Topmenu: React.FC = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolledPastPhotoline, setIsScrolledPastPhotoline] = useState(false);
+  const [isLocationsActive, setIsLocationsActive] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
   const handleMenuClick = (path: string) => {
+    setIsLocationsActive(false);
+    const isCurrentPage =
+      location.pathname.toLowerCase() === path.toLowerCase();
+
+    if (isCurrentPage) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
     navigate(path);
-    setIsMobileMenuOpen(false);
-    console.log(`${path} 페이지로 이동`);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, behavior: "auto" });
+      });
+    });
   };
 
   const handleLocationsClick = () => {
-    setIsMobileMenuOpen(false);
+    setIsLocationsActive(true);
+
+    const scrollToLocation = () => {
+      document.getElementById("location")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    };
+
     if (location.pathname !== "/") {
       navigate("/");
-      setTimeout(() => {
-        window.scrollTo({
-          top: document.body.scrollHeight,
-          behavior: "smooth",
-        });
-      }, 150);
+      setTimeout(scrollToLocation, 150);
     } else {
-      window.scrollTo({
-        top: document.body.scrollHeight,
-        behavior: "smooth",
-      });
+      scrollToLocation();
     }
   };
 
   const handleReservationClick = () => {
-    setIsMobileMenuOpen(false);
     window.open(
       "https://www.opentable.com.au/r/hongdae-pocha-sydney-reservations-chippendale?restref=298547&lang=en-AU&ot_source=Restaurant%20website",
       "_blank"
     );
   };
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
   // Home 또는 About 페이지인지 확인
   const isHomePage = location.pathname === "/";
   const isAboutPage = location.pathname.toLowerCase() === "/about";
+  const activeMobileTab =
+    isLocationsActive
+      ? 3
+      : location.pathname.toLowerCase() === "/mainmenu"
+      ? 1
+      : isAboutPage
+      ? 2
+      : 0;
   const hasHeroImageAtTop = isHomePage || isAboutPage;
 
   useEffect(() => {
@@ -86,8 +107,8 @@ const Topmenu: React.FC = () => {
 
   return (
     <>
-      <NavBarContainer isScrolledPastPhotoline={isScrolledPastPhotoline}>
-        <NavBar isScrolledPastPhotoline={isScrolledPastPhotoline}>
+      <NavBarContainer>
+        <NavBar $isScrolledPastPhotoline={isScrolledPastPhotoline}>
           <Logo
             src={
               process.env.PUBLIC_URL +
@@ -114,28 +135,59 @@ const Topmenu: React.FC = () => {
             <ReservationButton onClick={handleReservationClick}>
               {en.menu.reservation || "Reservation"}
             </ReservationButton>
-            <MobileMenuButton onClick={toggleMobileMenu}>
-              {isMobileMenuOpen ? "✕" : "☰"}
-            </MobileMenuButton>
           </RightActions>
         </NavBar>
 
-        {isMobileMenuOpen && (
-          <MobileMenu>
-            <MobileNavItem onClick={() => handleMenuClick("/MainMenu")}>
-              {en.menu.menu || "Menu"}
-            </MobileNavItem>
-            <MobileNavItem onClick={() => handleMenuClick("/About")}>
-              {en.menu.about || "About"}
-            </MobileNavItem>
-            <MobileNavItem onClick={handleLocationsClick}>
-              {en.menu.locations || "Locations"}
-            </MobileNavItem>
-            <MobileNavItem onClick={handleReservationClick}>
-              {en.menu.reservation || "Reservation"}
-            </MobileNavItem>
-          </MobileMenu>
-        )}
+        <MobileDock aria-label="Primary navigation">
+          <MobileTabBar>
+            <MobileActiveIndicator
+              $index={activeMobileTab}
+              aria-hidden="true"
+            />
+            <MobileTab
+              type="button"
+              $active={isHomePage && !isLocationsActive}
+              aria-current={
+                isHomePage && !isLocationsActive ? "page" : undefined
+              }
+              onClick={() => handleMenuClick("/")}
+            >
+              <Home aria-hidden="true" />
+              <span>Home</span>
+            </MobileTab>
+            <MobileTab
+              type="button"
+              $active={location.pathname.toLowerCase() === "/mainmenu"}
+              aria-current={
+                location.pathname.toLowerCase() === "/mainmenu"
+                  ? "page"
+                  : undefined
+              }
+              onClick={() => handleMenuClick("/MainMenu")}
+            >
+              <UtensilsCrossed aria-hidden="true" />
+              <span>{en.menu.menu || "Menu"}</span>
+            </MobileTab>
+            <MobileTab
+              type="button"
+              $active={isAboutPage}
+              aria-current={isAboutPage ? "page" : undefined}
+              onClick={() => handleMenuClick("/About")}
+            >
+              <CircleUserRound aria-hidden="true" />
+              <span>{en.menu.about || "About"}</span>
+            </MobileTab>
+            <MobileTab
+              type="button"
+              $active={isLocationsActive}
+              aria-current={isLocationsActive ? "location" : undefined}
+              onClick={handleLocationsClick}
+            >
+              <MapPin aria-hidden="true" />
+              <span>{en.menu.locations || "Locations"}</span>
+            </MobileTab>
+          </MobileTabBar>
+        </MobileDock>
       </NavBarContainer>
       {!hasHeroImageAtTop && <ContentSpacer />}
     </>
@@ -144,7 +196,7 @@ const Topmenu: React.FC = () => {
 
 export default Topmenu;
 
-const NavBarContainer = styled.div<{ isScrolledPastPhotoline: boolean }>`
+const NavBarContainer = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -153,14 +205,14 @@ const NavBarContainer = styled.div<{ isScrolledPastPhotoline: boolean }>`
   box-sizing: border-box;
   z-index: 2000;
   pointer-events: none;
-  transition: padding 0.3s ease;
+  transition: padding 0.3s ease, top 0.3s ease, bottom 0.3s ease;
 
-  @media (max-width: 768px) {
+  @media (max-width: 850px) {
     padding: 8px 12px;
   }
 `;
 
-const NavBar = styled.nav<{ isScrolledPastPhotoline: boolean }>`
+const NavBar = styled.nav<{ $isScrolledPastPhotoline: boolean }>`
   pointer-events: auto;
   width: 100%;
   max-width: 1400px;
@@ -176,15 +228,22 @@ const NavBar = styled.nav<{ isScrolledPastPhotoline: boolean }>`
   padding: 0 28px;
   box-sizing: border-box;
   box-shadow: ${(props) =>
-    props.isScrolledPastPhotoline
+    props.$isScrolledPastPhotoline
       ? "0 8px 30px rgba(0, 0, 0, 0.6)"
       : "0 4px 20px rgba(0, 0, 0, 0.3)"};
   transition: all 0.3s ease;
 
-  @media (max-width: 768px) {
+  @media (max-width: 850px) {
     height: 58px;
+    max-width: 480px;
     padding: 0 16px;
-    border-radius: 14px;
+    border-radius: 18px;
+    background: rgba(26, 26, 26, 0.72);
+    border-color: rgba(255, 255, 255, 0.14);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.36),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(22px) saturate(180%);
+    -webkit-backdrop-filter: blur(22px) saturate(180%);
   }
 `;
 
@@ -266,66 +325,111 @@ const ReservationButton = styled.button`
   }
 `;
 
-const MobileMenuButton = styled.div`
+const MobileDock = styled.nav`
   display: none;
+
   @media (max-width: 850px) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    cursor: pointer;
-    color: #F1FAEE;
-    padding: 4px;
-  }
-`;
-
-const MobileMenu = styled.div`
-  position: absolute;
-  top: 76px;
-  left: 16px;
-  right: 16px;
-  background-color: #1A1A1A;
-  border: 1px solid rgba(212, 163, 115, 0.15);
-  border-radius: 16px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
-  display: flex;
-  flex-direction: column;
-  padding: 8px 0;
-  pointer-events: auto;
-  z-index: 2000;
-
-  @media (min-width: 851px) {
-    display: none;
-  }
-  @media (max-width: 768px) {
-    top: 68px;
+    position: fixed;
     left: 12px;
     right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    display: flex;
+    align-items: center;
+    max-width: 480px;
+    margin: 0 auto;
+    pointer-events: auto;
   }
 `;
 
-const MobileNavItem = styled.div`
-  width: 100%;
-  padding: 14px 24px;
+const MobileTabBar = styled.div`
+  position: relative;
+  min-width: 0;
+  height: 64px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 24px;
+  background: rgba(28, 27, 27, 0.72);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.44),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+`;
+
+const MobileActiveIndicator = styled.span<{ $index: number }>`
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  left: 5px;
+  width: calc((100% - 10px) / 4);
+  border-radius: 18px;
+  background: rgba(230, 57, 70, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(230, 57, 70, 0.06);
+  transform: translateX(${(props) => props.$index * 100}%);
+  transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+`;
+
+const MobileTab = styled.button<{ $active: boolean }>`
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  min-height: 52px;
+  flex: 1;
+  padding: 5px 2px 4px;
+  border: 0;
+  border-radius: 18px;
+  background: transparent;
+  color: ${(props) => (props.$active ? "#ff5a66" : "#f1faee")};
   font-family: var(--font-body);
-  font-size: 16px;
-  font-weight: 500;
-  color: #D4A373;
+  font-size: 10px;
+  font-weight: 700;
   cursor: pointer;
   user-select: none;
   box-sizing: border-box;
-  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  transition: color 0.2s ease, background-color 0.2s ease,
+    transform 0.15s ease;
 
-  &:hover {
-    color: #F1FAEE;
-    background: rgba(241, 250, 238, 0.04);
+  svg {
+    width: 21px;
+    height: 21px;
+    stroke-width: ${(props) => (props.$active ? 2.4 : 1.9)};
+  }
+
+  span {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &:active {
+    transform: scale(0.94);
+  }
+
+  &:focus-visible {
+    outline: 2px solid #f1faee;
+    outline-offset: -2px;
   }
 `;
 
 const ContentSpacer = styled.div`
   height: 88px;
+  background-color: #121212;
 
-  @media (max-width: 768px) {
-    height: 76px;
+  @media (max-width: 850px) {
+    height: 74px;
   }
 `;
