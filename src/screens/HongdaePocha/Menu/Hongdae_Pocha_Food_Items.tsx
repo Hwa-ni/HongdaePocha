@@ -12,8 +12,6 @@ const categories = [
   lang.itemMenu.special,
   lang.itemMenu.Pochastaplestoshare,
   lang.itemMenu.side,
-  lang.itemMenu.extras,
-  lang.itemMenu.dessert,
 ];
 
 const subcategories: { [key: string]: string[] } = {
@@ -26,11 +24,6 @@ const subcategories: { [key: string]: string[] } = {
     lang.drinkMenu.cocktails,
     lang.drinkMenu.softdrink,
   ],
-  [lang.itemMenu.bbqgrill]: [
-    lang.bbqgrillmenu.beef,
-    lang.bbqgrillmenu.pork,
-    lang.bbqgrillmenu.friend,
-  ],
 };
 
 const MenuListPage = () => {
@@ -39,22 +32,22 @@ const MenuListPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredMenu = menuData.filter((item) => {
-    const hasValidImage =
-      item.image && !item.image.toLowerCase().includes("unknown");
     const matchesCategory =
       selectedCategory === lang.itemMenu.all ||
       item.category === selectedCategory;
     const matchesSubCategory =
       !selectedSubCategory || item.subcategory === selectedSubCategory;
-    const matchesSearch = item.name
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-    return hasValidImage && matchesCategory && matchesSubCategory && matchesSearch;
+    const normalizedSearch = searchTerm.toLowerCase();
+    const matchesSearch =
+      item.name.toLowerCase().includes(normalizedSearch) ||
+      item.englishName?.toLowerCase().includes(normalizedSearch) ||
+      item.description?.toLowerCase().includes(normalizedSearch);
+    return matchesCategory && matchesSubCategory && Boolean(matchesSearch);
   });
 
   // 서브카테고리별로 그룹핑 (순서 유지)
   const groupedMenu = (() => {
-    const groups: { subcategory: string | null; items: typeof filteredMenu }[] = [];
+    const groups: { label: string; items: typeof filteredMenu }[] = [];
     const seen = new Map<string, number>();
     filteredMenu.forEach((item) => {
       const key = item.subcategory ?? item.category ?? "";
@@ -62,14 +55,13 @@ const MenuListPage = () => {
         groups[seen.get(key)!].items.push(item);
       } else {
         seen.set(key, groups.length);
-        groups.push({ subcategory: item.subcategory ?? null, items: [item] });
+        groups.push({ label: key, items: [item] });
       }
     });
     return groups;
   })();
 
-  // 소제목이 필요한지 여부: 그룹이 2개 이상이거나 서브카테고리가 존재할 때
-  const showSectionHeaders = groupedMenu.length > 1 || (groupedMenu.length === 1 && groupedMenu[0].subcategory !== null);
+  const showSectionHeaders = groupedMenu.length > 1;
 
   const renderSpiceLevel = (level?: number) => {
     if (!level || level <= 0) return null;
@@ -88,6 +80,13 @@ const MenuListPage = () => {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
+              <MenuBoardLink
+                href="https://vuzagroup.direct.quickconnect.to/HongdaePocha_Menu/index.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View Menu
+              </MenuBoardLink>
             </SearchSection>
 
             <CategorySection>
@@ -96,7 +95,7 @@ const MenuListPage = () => {
                 {categories.map((category) => (
                   <CategoryItem
                     key={category}
-                    active={selectedCategory === category}
+                    $active={selectedCategory === category}
                     onClick={() => {
                       setSelectedCategory(category);
                       setSelectedSubCategory(null);
@@ -115,13 +114,13 @@ const MenuListPage = () => {
                       {subcategories[selectedCategory].map((sub) => (
                         <CategoryItem
                           key={sub}
-                          active={selectedSubCategory === sub}
+                          $active={selectedSubCategory === sub}
                           onClick={() =>
                             setSelectedSubCategory((prev) =>
                               prev === sub ? null : sub
                             )
                           }
-                          isSub
+                          $isSub
                         >
                           {sub}
                         </CategoryItem>
@@ -139,7 +138,7 @@ const MenuListPage = () => {
                 {categories.map((category) => (
                   <MobileCategoryTab
                     key={category}
-                    active={selectedCategory === category}
+                    $active={selectedCategory === category}
                     onClick={() => {
                       setSelectedCategory(category);
                       setSelectedSubCategory(null);
@@ -150,11 +149,11 @@ const MenuListPage = () => {
                 ))}
               </MobileCategoryTabs>
               {subcategories[selectedCategory] && (
-                <MobileCategoryTabs isSub>
+                <MobileCategoryTabs $isSub>
                   {subcategories[selectedCategory].map((sub) => (
                     <MobileCategoryTab
                       key={sub}
-                      active={selectedSubCategory === sub}
+                      $active={selectedSubCategory === sub}
                       onClick={() =>
                         setSelectedSubCategory((prev) =>
                           prev === sub ? null : sub
@@ -174,33 +173,27 @@ const MenuListPage = () => {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
+              <MenuBoardLink
+                href="https://vuzagroup.direct.quickconnect.to/HongdaePocha_Menu/index.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View Menu
+              </MenuBoardLink>
             </MobileSearchSection>
           </MobileCategorySection>
 
           <MenuContainer>
-            <SpiceGuideWrapper>
-              <ViewMenuButton 
-                onClick={() => window.open("https://vuzagroup.direct.quickconnect.to/HongdaePocha_Menu/index.html", "_blank", "noopener,noreferrer")}
-              >
-                View Menu Board
-              </ViewMenuButton>
-              <SpiceGuide>
-                <GuideItem>● Little Spicy</GuideItem>
-                <GuideItem>●● Spicy</GuideItem>
-                <GuideItem>●●● Very Spicy</GuideItem>
-              </SpiceGuide>
-            </SpiceGuideWrapper>
-
             <MenuGrid>
               {filteredMenu.length === 0 ? (
                 <EmptyMessage>No items found.</EmptyMessage>
               ) : (
                 groupedMenu.map((group, groupIdx) => (
                   <React.Fragment key={groupIdx}>
-                    {showSectionHeaders && group.subcategory && (
+                    {showSectionHeaders && (
                       <SectionHeader>
                         <SectionHeaderLine />
-                        <SectionHeaderText>{group.subcategory}</SectionHeaderText>
+                        <SectionHeaderText>{group.label}</SectionHeaderText>
                         <SectionHeaderLine />
                       </SectionHeader>
                     )}
@@ -228,15 +221,42 @@ const MenuListPage = () => {
                           </SpiceBadge>
                         )}
                         <MenuImageContainer>
-                          {item.image && <MenuImage src={item.image} alt={item.name} />}
+                          {item.image ? (
+                            <MenuImage src={item.image} alt={item.name} />
+                          ) : (
+                            <MenuImagePlaceholder>
+                              <PlaceholderLogo
+                                src="/assets/HongdaePocha/HongdaePocha_logo/mainlogo5.png"
+                                alt="Hongdae Pocha"
+                              />
+                            </MenuImagePlaceholder>
+                          )}
                         </MenuImageContainer>
-                        <MenuName>{item.name}</MenuName>
+                        <MenuDetails>
+                          <MenuHeading>
+                            <MenuTitleGroup>
+                              <MenuName>{item.name}</MenuName>
+                              {item.englishName && (
+                                <MenuEnglishName>{item.englishName}</MenuEnglishName>
+                              )}
+                            </MenuTitleGroup>
+                            {item.price && <MenuPrice>{item.price}</MenuPrice>}
+                          </MenuHeading>
+                          {item.description && (
+                            <MenuDescription>{item.description}</MenuDescription>
+                          )}
+                        </MenuDetails>
                       </MenuCard>
                     ))}
                   </React.Fragment>
                 ))
               )}
             </MenuGrid>
+            <MenuNotices>
+              <p>5% Saturday surcharge. 10% Sunday &amp; Public Holiday surcharge.</p>
+              <p>Origin of seafood: A - Australian, I - Imported, M - Mixed Origin.</p>
+              <p>Please tell our staff prior to ordering if you have any allergies and/or dietary restrictions.</p>
+            </MenuNotices>
           </MenuContainer>
         </ContentContainer>
         <BottomMenu />
@@ -295,10 +315,15 @@ const SidebarContainer = styled.div`
 
 const SearchSection = styled.div`
   width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 `;
 
 const SearchInput = styled.input`
+  flex: 1 1 auto;
   width: 100%;
+  min-width: 0;
   padding: 15px 20px;
   border: 1px solid #444;
   border-radius: 25px;
@@ -356,15 +381,15 @@ const CategoryList = styled.div`
   margin-bottom: 20px;
 `;
 
-const CategoryItem = styled.button<{ active: boolean; isSub?: boolean }>`
-  background: ${(props) => (props.active ? "white" : "transparent")};
+const CategoryItem = styled.button<{ $active: boolean; $isSub?: boolean }>`
+  background: ${(props) => (props.$active ? "white" : "transparent")};
   border: none;
   padding: 12px 15px;
   border-radius: 15px;
-  font-size: ${(props) => (props.isSub ? "14px" : "16px")};
-  font-weight: ${(props) => (props.active ? "bold" : "normal")};
+  font-size: ${(props) => (props.$isSub ? "14px" : "16px")};
+  font-weight: ${(props) => (props.$active ? "bold" : "normal")};
   color: ${(props) =>
-    props.active ? "#9c1f23" : props.isSub ? "#b0b0b0" : "#e0e0e0"};
+    props.$active ? "#9c1f23" : props.$isSub ? "#b0b0b0" : "#e0e0e0"};
   cursor: pointer;
   transition: all 0.2s ease;
   text-align: left;
@@ -373,8 +398,8 @@ const CategoryItem = styled.button<{ active: boolean; isSub?: boolean }>`
   word-break: break-word;
 
   &:hover {
-    background: ${(props) => (props.active ? "white" : "#333")};
-    color: ${(props) => (props.active ? "#9c1f23" : "#e0e0e0")};
+    background: ${(props) => (props.$active ? "white" : "#333")};
+    color: ${(props) => (props.$active ? "#9c1f23" : "#e0e0e0")};
   }
 `;
 
@@ -405,7 +430,7 @@ const MobileCategoryTabsWrapper = styled.div`
   padding-bottom: 0;
 `;
 
-const MobileCategoryTabs = styled.div<{ isSub?: boolean }>`
+const MobileCategoryTabs = styled.div<{ $isSub?: boolean }>`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
@@ -415,14 +440,14 @@ const MobileCategoryTabs = styled.div<{ isSub?: boolean }>`
   gap: 0;
 `;
 
-const MobileCategoryTab = styled.button<{ active: boolean }>`
-  background: ${(props) => (props.active ? "white" : "transparent")};
+const MobileCategoryTab = styled.button<{ $active: boolean }>`
+  background: ${(props) => (props.$active ? "white" : "transparent")};
   border: none;
   padding: 10px 10px;
   border-radius: 15px;
   font-size: 16px;
-  font-weight: ${(props) => (props.active ? "bold" : "normal")};
-  color: ${(props) => (props.active ? "#333" : "#b0b0b0")};
+  font-weight: ${(props) => (props.$active ? "bold" : "normal")};
+  color: ${(props) => (props.$active ? "#333" : "#b0b0b0")};
   cursor: pointer;
   transition: all 0.2s ease;
   margin: 0 5px 10px 10px;
@@ -439,6 +464,7 @@ const MobileSearchSection = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 8px;
   width: 100%;
 `;
 
@@ -447,67 +473,6 @@ const MenuContainer = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 400px;
-`;
-
-const SpiceGuideWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  gap: 15px;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    justify-content: center;
-  }
-`;
-
-const ViewMenuButton = styled.button`
-  background-color: #9c1f23;
-  color: white;
-  border: none;
-  border-radius: 30px;
-  padding: 8px 25px;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s ease;
-
-  &:hover {
-    background-color: #b32428;
-    transform: translateY(-2px);
-  }
-
-  @media (max-width: 768px) {
-    padding: 10px 20px;
-    font-size: 14px;
-    width: auto;
-  }
-`;
-
-const SpiceGuide = styled.div`
-  display: flex;
-  gap: 20px;
-  padding: 8px 25px;
-  background-color: white;
-  border-radius: 30px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-
-  @media (max-width: 768px) {
-    gap: 15px;
-    padding: 6px 20px;
-  }
-`;
-
-const GuideItem = styled.span`
-  color: #9c1f23;
-  font-weight: bold;
-  font-size: 14px;
-
-  @media (max-width: 768px) {
-    font-size: 12px;
-  }
 `;
 
 const MenuGrid = styled.div`
@@ -724,17 +689,134 @@ const MenuImage = styled.img`
   }
 `;
 
+const MenuImagePlaceholder = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, #333 0%, #1a1a1a 70%);
+`;
+
+const MenuBoardLink = styled.a`
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  padding: 0 16px;
+  border-radius: 25px;
+  background: #9c1f23;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  box-sizing: border-box;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    background: #bb2b30;
+    transform: translateY(-1px);
+  }
+
+  &:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 768px) {
+    min-height: 44px;
+    padding: 0 14px;
+    font-size: 12px;
+  }
+`;
+
+const PlaceholderLogo = styled.img`
+  width: 62%;
+  height: auto;
+  max-height: 62%;
+  object-fit: contain;
+  opacity: 0.58;
+  filter: grayscale(1);
+`;
+
+const MenuDetails = styled.div`
+  padding: 18px 20px 22px;
+
+  @media (max-width: 768px) {
+    padding: 14px 14px 18px;
+  }
+`;
+
+const MenuHeading = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+`;
+
+const MenuTitleGroup = styled.div`
+  min-width: 0;
+`;
+
 const MenuName = styled.h3`
-  padding: 20px;
   margin: 0;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 700;
   color: #e0e0e0;
-  text-align: center;
   line-height: 1.4;
 
   @media (max-width: 768px) {
-    padding: 15px;
     font-size: 14px;
+  }
+`;
+
+const MenuPrice = styled.span`
+  flex: 0 0 auto;
+  color: #d4a373;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.4;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+`;
+
+const MenuEnglishName = styled.p`
+  margin: 3px 0 0;
+  color: #d0d0d0;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.35;
+
+  @media (max-width: 768px) {
+    font-size: 11px;
+  }
+`;
+
+const MenuDescription = styled.p`
+  margin: 8px 0 0;
+  color: #a8a8a8;
+  font-size: 13px;
+  line-height: 1.55;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
+`;
+
+const MenuNotices = styled.div`
+  margin-top: 34px;
+  padding-top: 20px;
+  border-top: 1px solid #3b3b3b;
+  color: #9f9f9f;
+  font-size: 12px;
+  line-height: 1.55;
+
+  p {
+    margin: 4px 0;
   }
 `;

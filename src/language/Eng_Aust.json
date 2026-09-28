@@ -8,10 +8,10 @@
   "itemMenu": {
     "all": "ALL",
     "drinks": "DRINKS",
-    "bbqgrill": "BBQ / Grill",
-    "special": "Hongdae Pocha Specials",
-    "Pochastaplestoshare": "Pocha Staples to Share",
-    "side": "Side Menu",
+    "bbqgrill": "BBQ Meats",
+    "special": "K-BBQ's Friends",
+    "Pochastaplestoshare": "Sides",
+    "side": "Bowls, Plates & Hot Pots",
     "extras": "Extras",
     "dessert": "Dessert"
   },
@@ -23,11 +23,6 @@
     "kwine": "KOREAN WINE",
     "cocktails": "Cocktails",
     "softdrink": "SOFT DRINKS"
-  },
-  "bbqgrillmenu": {
-    "beef": "BEEF",
-    "pork": "PORK",
-    "friend": "K-BBQ & FRIENDS"
   },
   "Pochastaplestoshare": {
     "gogijibdoenjangjjigae": "GOGIJIB DOENJANG JJIGAE"

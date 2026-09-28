@@ -2,10 +2,30 @@ import React from "react";
 import styled from "styled-components";
 import en from "../../language/Eng_Aust.json";
 
+const openingHours = [
+  ["Monday", "5:00 pm – 10:00 pm"],
+  ["Tuesday", "Closed"],
+  ["Wednesday", "5:00 pm – 10:00 pm"],
+  ["Thursday", "5:00 pm – 10:00 pm"],
+  ["Friday", "5:00 pm – 11:00 pm"],
+  ["Saturday", "5:00 pm – 11:00 pm"],
+  ["Sunday", "5:00 pm – 9:30 pm"],
+];
+
+const kitchenHours = [
+  ["Monday", "5:00 pm – 9:00 pm"],
+  ["Tuesday", "Closed"],
+  ["Wednesday", "5:00 pm – 9:00 pm"],
+  ["Thursday", "5:00 pm – 9:00 pm"],
+  ["Friday", "5:00 pm – 10:00 pm"],
+  ["Saturday", "5:00 pm – 10:00 pm"],
+  ["Sunday", "5:00 pm – 8:30 pm"],
+];
+
 const BottomMenu = () => {
   return (
     <Wrapper>
-      <TextSection>
+      <ContactSection>
         <Line>
           <strong>{en.bottommenu?.title}</strong>
         </Line>
@@ -36,7 +56,37 @@ const BottomMenu = () => {
         <Line>
           <a href={`mailto:${en.bottommenu?.email}`}>{en.bottommenu?.email}</a>
         </Line>
-      </TextSection>
+      </ContactSection>
+
+      <HoursSection>
+        <HoursHeader>
+          <HoursTitle>Opening Hours</HoursTitle>
+          <EffectiveDate>Effective from 21 September</EffectiveDate>
+        </HoursHeader>
+        <HoursList>
+          {openingHours.map(([day, hours]) => (
+            <HoursRow key={day}>
+              <Day>{day}</Day>
+              <Time $closed={hours === "Closed"}>{hours}</Time>
+            </HoursRow>
+          ))}
+        </HoursList>
+      </HoursSection>
+
+      <HoursSection>
+        <HoursHeader>
+          <HoursTitle>Kitchen Hours</HoursTitle>
+        </HoursHeader>
+        <HoursList>
+          {kitchenHours.map(([day, hours]) => (
+            <HoursRow key={day}>
+              <Day>{day}</Day>
+              <Time $closed={hours === "Closed"}>{hours}</Time>
+            </HoursRow>
+          ))}
+        </HoursList>
+      </HoursSection>
+
       <LogoSection>
         <img
           src={
@@ -53,22 +103,43 @@ const BottomMenu = () => {
 export default BottomMenu;
 
 const Wrapper = styled.footer`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 30px 60px;
+  display: grid;
+  grid-template-columns: minmax(230px, 1.25fr) repeat(2, minmax(230px, 1fr)) auto;
+  gap: 48px;
+  align-items: start;
+  padding: 48px 60px;
   background-color: #1A1A1A;
+  border-top: 1px solid rgba(212, 163, 115, 0.22);
 
-  @media (max-width: 768px) {
-    justify-content: center;
-    padding: 20px 30px;
+  @media (max-width: 1360px) {
+    grid-template-columns: minmax(220px, 1.2fr) repeat(2, minmax(220px, 1fr));
+    gap: 40px;
+  }
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 40px 48px;
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+    gap: 34px;
+    padding: 36px 24px;
   }
 `;
 
-const TextSection = styled.div`
+const ContactSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+
+  @media (max-width: 900px) {
+    grid-column: 1 / -1;
+  }
+
+  @media (max-width: 640px) {
+    grid-column: auto;
+  }
 `;
 
 const Line = styled.p`
@@ -94,7 +165,67 @@ const Line = styled.p`
   }
 `;
 
+const HoursSection = styled.section`
+  width: 100%;
+  max-width: 310px;
+
+  @media (max-width: 640px) {
+    max-width: 420px;
+  }
+`;
+
+const HoursHeader = styled.div`
+  min-height: 48px;
+  margin-bottom: 14px;
+`;
+
+const HoursTitle = styled.h3`
+  margin: 0;
+  color: #E63946;
+  font-family: var(--font-headline);
+  font-size: 17px;
+  line-height: 1.3;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+`;
+
+const EffectiveDate = styled.p`
+  margin: 5px 0 0;
+  color: #D4A373;
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 1.35;
+`;
+
+const HoursList = styled.div`
+  display: grid;
+  gap: 8px;
+`;
+
+const HoursRow = styled.div`
+  display: grid;
+  grid-template-columns: minmax(88px, 1fr) auto;
+  gap: 18px;
+  align-items: baseline;
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.4;
+`;
+
+const Day = styled.span`
+  color: #F1FAEE;
+`;
+
+const Time = styled.span<{ $closed?: boolean }>`
+  color: ${({ $closed }) => ($closed ? "#E63946" : "#D4A373")};
+  font-weight: ${({ $closed }) => ($closed ? 600 : 400)};
+  text-align: right;
+  white-space: nowrap;
+`;
+
 const LogoSection = styled.div`
+  align-self: center;
+
   img {
     width: 180px;
     height: auto;
@@ -103,7 +234,7 @@ const LogoSection = styled.div`
     margin-right: 0;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1360px) {
     display: none;
   }
 `;

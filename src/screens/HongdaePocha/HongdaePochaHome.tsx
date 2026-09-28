@@ -62,7 +62,7 @@ const ImageContainer = styled.div`
 const Home: React.FC = () => {
   const bbqMenu = menuData.filter(
     (item) =>
-      item.category === "BBQ / Grill" &&
+      item.category === "BBQ Meats" &&
       item.image &&
       !item.image.toLowerCase().includes("unknown")
   );

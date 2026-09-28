@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
+// Show the promotion through 27 September 2026 in Sydney.
+const POPUP_END_AT = Date.parse("2026-09-28T00:00:00+10:00");
+
 const PopupOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -97,9 +100,12 @@ const Popup = () => {
 
   useEffect(() => {
     const hidePopupUntil = localStorage.getItem("hidePopupUntil");
-    const now = new Date().getTime();
+    const now = Date.now();
 
-    if (!hidePopupUntil || now > parseInt(hidePopupUntil)) {
+    if (
+      now < POPUP_END_AT &&
+      (!hidePopupUntil || now > parseInt(hidePopupUntil, 10))
+    ) {
       setIsOpen(true);
     }
   }, []);
